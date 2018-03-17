@@ -26,8 +26,6 @@ public class Archivo {
     public Archivo(String nombreArchivo){
         archivo = new File(nombreArchivo);
     }
-
-    
     /**
      * 
      * @return el contenido del archivo 
@@ -62,4 +60,3 @@ public class Archivo {
        
     }
 }
-

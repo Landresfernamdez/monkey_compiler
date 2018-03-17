@@ -6,16 +6,21 @@
 package interfaz;
 
 
+import linea.TextLineNumber;
 import clasesCompiladores.Editor;
+import java.awt.BorderLayout;
+import java.awt.Rectangle;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
-import linea.LineNumberComponent;
-import linea.LineNumberModel;
 /**
  *
  * @author Jurguen
@@ -23,16 +28,10 @@ import linea.LineNumberModel;
 public class Interfaz extends javax.swing.JFrame {
 
     private Editor editor;
-   
     /**
      * Creates new form Interfaz
      */
-    public Interfaz() {
-        initComponents();
-        
-        editor=new Editor();
-    }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,10 +42,11 @@ public class Interfaz extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        PanelEdicion = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        PanelEdicion = new javax.swing.JTextPane();
+        scroll = new javax.swing.JScrollPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menuOpen = new javax.swing.JMenuItem();
@@ -59,13 +59,11 @@ public class Interfaz extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        PanelEdicion.setColumns(20);
-        PanelEdicion.setRows(5);
-        jScrollPane1.setViewportView(PanelEdicion);
-
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
+
+        jScrollPane3.setViewportView(PanelEdicion);
 
         jMenu1.setText("File");
 
@@ -111,35 +109,41 @@ public class Interfaz extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(scroll)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(scroll)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+	
+	public Interfaz(){
+                initComponents();
+                editor=new Editor();
+                scroll.setViewportView(PanelEdicion);
+                TextLineNumber lineNumber = new TextLineNumber(PanelEdicion);
+                scroll.setRowHeaderView(lineNumber);
+	}
     private void menuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpenActionPerformed
         // TODO add your handling code here:
-        
-        
         JFileChooser fc = new JFileChooser();
         if(fc.showOpenDialog(this)== JFileChooser.APPROVE_OPTION){
             File f = fc.getSelectedFile();
-            
             String contenido= "";
-            
             try{
                 contenido = editor.OpenArchivo(f.getAbsolutePath());
                 refrescar(contenido);
@@ -176,17 +180,18 @@ public class Interfaz extends javax.swing.JFrame {
         refrescar("");
 
     }//GEN-LAST:event_menuCreateActionPerformed
-    
+
     public String getContenido(){
         return PanelEdicion.getText();
     }
     public void refrescar(String contenido){
         PanelEdicion.setText(contenido);
-    }
-    
+    } 
     /**
      * @param args the command line arguments
      */
+   
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -214,23 +219,25 @@ public class Interfaz extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Interfaz().setVisible(true);
+                Interfaz i=new Interfaz();
+                i.setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea PanelEdicion;
+    private javax.swing.JTextPane PanelEdicion;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuItem menuCreate;
     private javax.swing.JMenuItem menuOpen;
     private javax.swing.JMenuItem menuSave;
+    private javax.swing.JScrollPane scroll;
     // End of variables declaration//GEN-END:variables
 }
