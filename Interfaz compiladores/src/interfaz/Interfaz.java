@@ -4,20 +4,20 @@
  * and open the template in the editor.
  */
 package interfaz;
-
-
+import generated.Scanner;
 import linea.TextLineNumber;
 import clasesCompiladores.Editor;
-import java.awt.BorderLayout;
-import java.awt.Rectangle;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.tree.ParseTree;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-import javax.swing.SwingUtilities;
+import java.io.FileReader;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
@@ -28,6 +28,11 @@ import javax.swing.text.BadLocationException;
 public class Interfaz extends javax.swing.JFrame {
 
     private Editor editor;
+    Scanner inst = null;
+    generated.MonkeyParser parser=null;
+    ANTLRInputStream input=null;
+    CommonTokenStream tokens = null;
+    ParseTree tree=null;
     /**
      * Creates new form Interfaz
      */
@@ -53,7 +58,9 @@ public class Interfaz extends javax.swing.JFrame {
         menuSave = new javax.swing.JMenuItem();
         menuCreate = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         jToolBar1.setRollover(true);
 
@@ -66,6 +73,11 @@ public class Interfaz extends javax.swing.JFrame {
         jScrollPane3.setViewportView(PanelEdicion);
 
         jMenu1.setText("File");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                none(evt);
+            }
+        });
 
         menuOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/folder_open_document_text.png"))); // NOI18N
         menuOpen.setText("Open");
@@ -97,10 +109,42 @@ public class Interfaz extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Compile");
+        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu2ActionPerformed(evt);
+            }
+        });
+
+        jMenuItem1.setLabel("Compile");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compilePerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+        jMenuItem1.getAccessibleContext().setAccessibleName("compile");
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Tree");
+
+        jMenuItem2.setText("Show tree");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try{
+                    Showtree(evt);
+                }
+                catch(Exception exc ){
+                    JFrame parent = new JFrame();
+                    String multiLineMsg[] = { "Error,", " debe compilar para cargar el arbol"} ;
+                    JOptionPane.showMessageDialog(parent, multiLineMsg);
+                }
+            }
+        });
+        jMenu3.add(jMenuItem2);
+
         jMenuBar1.add(jMenu3);
+        jMenu3.getAccessibleContext().setAccessibleDescription("");
 
         setJMenuBar(jMenuBar1);
 
@@ -151,7 +195,6 @@ public class Interfaz extends javax.swing.JFrame {
             catch(Exception exc){
                 JOptionPane.showMessageDialog(this, exc.getMessage(),"Editor",JOptionPane.ERROR_MESSAGE);
             }
-            
         }
         
     }//GEN-LAST:event_menuOpenActionPerformed
@@ -180,6 +223,45 @@ public class Interfaz extends javax.swing.JFrame {
         refrescar("");
 
     }//GEN-LAST:event_menuCreateActionPerformed
+
+    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+        
+    }//GEN-LAST:event_jMenu2ActionPerformed
+
+    private void none(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_none
+        // TODO add your handling code here:
+    }//GEN-LAST:event_none
+
+    private void compilePerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilePerformed
+        // TODO add your handling code here:
+        try {
+            input = new ANTLRInputStream(new FileReader("test.txt"));
+            inst = new Scanner(input);
+            tokens=new CommonTokenStream(inst);
+            parser=new generated.MonkeyParser(tokens);
+        }
+        catch(Exception e){System.out.println("No hay archivo");}
+        try{
+            tree =parser.program();
+           //System.out.print(tree.getText());
+            System.out.println("Compilacion exitosa!!\n");
+        }
+        catch (RecognitionException e){
+            System.out.println("Compilacion fallida!!\n");
+        }
+    }//GEN-LAST:event_compilePerformed
+        private void Showtree(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Showtree
+        // TODO add your handling code here:
+        try{
+            java.util.concurrent.Future <JFrame> treeGUI = org.antlr.v4.gui.Trees.inspect(tree,parser);
+        }catch (Exception e){
+            //System.out.println("Error debe compilar para cargar el arbol");
+            JFrame parent = new JFrame();
+            String multiLineMsg[] = { "Error,", " debe compilar para cargar el arbol"} ;
+            JOptionPane.showMessageDialog(parent, multiLineMsg);
+
+        }
+    }//GEN-LAST:event_Showtree
 
     public String getContenido(){
         return PanelEdicion.getText();
@@ -231,6 +313,8 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
