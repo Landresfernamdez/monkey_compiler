@@ -1,5 +1,4 @@
 // Generated from C:/Users/Andres/Documents/ProyectsGit/monkey_compiler/Interfaz compiladores\MonkeyParser.g4 by ANTLR 4.7
-package generated;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -115,6 +114,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_program; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterProgram(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitProgram(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitProgram(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ProgramContext program() throws RecognitionException {
@@ -167,6 +179,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitStatement(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final StatementContext statement() throws RecognitionException {
@@ -242,6 +267,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_letStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterLetStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitLetStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitLetStatement(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final LetStatementContext letStatement() throws RecognitionException {
@@ -313,6 +351,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_returnStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterReturnStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitReturnStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitReturnStatement(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ReturnStatementContext returnStatement() throws RecognitionException {
@@ -380,6 +431,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expressionStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterExpressionStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitExpressionStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitExpressionStatement(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ExpressionStatementContext expressionStatement() throws RecognitionException {
@@ -449,6 +513,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ExpressionContext expression() throws RecognitionException {
@@ -505,6 +582,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_comparison; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterComparison(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitComparison(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitComparison(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ComparisonContext comparison() throws RecognitionException {
@@ -562,6 +652,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_additionExpression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterAdditionExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitAdditionExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitAdditionExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final AdditionExpressionContext additionExpression() throws RecognitionException {
@@ -606,6 +709,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_additionFactor; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterAdditionFactor(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitAdditionFactor(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitAdditionFactor(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final AdditionFactorContext additionFactor() throws RecognitionException {
@@ -663,6 +779,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multiplicationExpression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterMultiplicationExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitMultiplicationExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitMultiplicationExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final MultiplicationExpressionContext multiplicationExpression() throws RecognitionException {
@@ -707,6 +836,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multiplicationFactor; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterMultiplicationFactor(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitMultiplicationFactor(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitMultiplicationFactor(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final MultiplicationFactorContext multiplicationFactor() throws RecognitionException {
@@ -767,6 +909,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_elementExpression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterElementExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitElementExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitElementExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ElementExpressionContext elementExpression() throws RecognitionException {
@@ -820,6 +975,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_elementAccess; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterElementAccess(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitElementAccess(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitElementAccess(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ElementAccessContext elementAccess() throws RecognitionException {
@@ -857,6 +1025,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_callExpression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterCallExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitCallExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitCallExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final CallExpressionContext callExpression() throws RecognitionException {
@@ -920,6 +1101,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_primitiveExpression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterPrimitiveExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitPrimitiveExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitPrimitiveExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final PrimitiveExpressionContext primitiveExpression() throws RecognitionException {
@@ -1052,6 +1246,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arrayFunctions; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterArrayFunctions(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitArrayFunctions(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitArrayFunctions(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ArrayFunctionsContext arrayFunctions() throws RecognitionException {
@@ -1094,6 +1301,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arrayLiteral; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterArrayLiteral(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitArrayLiteral(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitArrayLiteral(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ArrayLiteralContext arrayLiteral() throws RecognitionException {
@@ -1135,6 +1355,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_functionLiteral; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterFunctionLiteral(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitFunctionLiteral(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitFunctionLiteral(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final FunctionLiteralContext functionLiteral() throws RecognitionException {
@@ -1175,6 +1408,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_functionParameters; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterFunctionParameters(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitFunctionParameters(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitFunctionParameters(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final FunctionParametersContext functionParameters() throws RecognitionException {
@@ -1213,6 +1459,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_moreIdentifiers; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterMoreIdentifiers(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitMoreIdentifiers(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitMoreIdentifiers(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final MoreIdentifiersContext moreIdentifiers() throws RecognitionException {
@@ -1264,6 +1523,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_hashLiteral; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterHashLiteral(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitHashLiteral(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitHashLiteral(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final HashLiteralContext hashLiteral() throws RecognitionException {
@@ -1305,6 +1577,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_hashContent; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterHashContent(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitHashContent(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitHashContent(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final HashContentContext hashContent() throws RecognitionException {
@@ -1347,6 +1632,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_moreHashContent; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterMoreHashContent(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitMoreHashContent(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitMoreHashContent(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final MoreHashContentContext moreHashContent() throws RecognitionException {
@@ -1396,6 +1694,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expressionList; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterExpressionList(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitExpressionList(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitExpressionList(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ExpressionListContext expressionList() throws RecognitionException {
@@ -1465,6 +1776,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_moreExpressions; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterMoreExpressions(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitMoreExpressions(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitMoreExpressions(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final MoreExpressionsContext moreExpressions() throws RecognitionException {
@@ -1514,6 +1838,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_printExpression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterPrintExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitPrintExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitPrintExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final PrintExpressionContext printExpression() throws RecognitionException {
@@ -1559,6 +1896,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_ifExpression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterIfExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitIfExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitIfExpression(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final IfExpressionContext ifExpression() throws RecognitionException {
@@ -1650,6 +2000,19 @@ public class MonkeyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_blockStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).enterBlockStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MonkeyParserListener ) ((MonkeyParserListener)listener).exitBlockStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MonkeyParserVisitor ) return ((MonkeyParserVisitor<? extends T>)visitor).visitBlockStatement(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final BlockStatementContext blockStatement() throws RecognitionException {
