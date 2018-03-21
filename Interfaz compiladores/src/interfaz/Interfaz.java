@@ -235,7 +235,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void compilePerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilePerformed
         // TODO add your handling code here:
         try {
-            input = new ANTLRInputStream(new FileReader("test.txt"));
+            input = new ANTLRInputStream(new FileReader(editor.archivo.nombre));
             inst = new Scanner(input);
             tokens=new CommonTokenStream(inst);
             parser=new generated.MonkeyParser(tokens);

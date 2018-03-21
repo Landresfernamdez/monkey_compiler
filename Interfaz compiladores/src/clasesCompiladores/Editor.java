@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public class Editor {
     
-    private Archivo archivo;
+    public Archivo archivo;
     public Editor(){
         archivo = null;
     }

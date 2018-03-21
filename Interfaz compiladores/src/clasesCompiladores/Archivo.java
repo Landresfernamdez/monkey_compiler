@@ -17,13 +17,14 @@ import java.io.PrintWriter;
  */
 public class Archivo {
     private File archivo;
-    
+    public String nombre;
     /**
      * 
      * 
      * @param nombreArchivo del archivo creado
      */
     public Archivo(String nombreArchivo){
+        nombre=nombreArchivo;
         archivo = new File(nombreArchivo);
     }
     /**
@@ -57,6 +58,5 @@ public class Archivo {
         PrintWriter escritor = new PrintWriter(archivo);
         escritor.write(contenido);
         escritor.close();
-       
     }
 }
