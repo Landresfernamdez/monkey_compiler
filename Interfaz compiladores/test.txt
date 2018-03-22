@@ -1,5 +1,4 @@
 let age = 1;
 let name = "Monkey";
 let result = 10 * (20 / 2);
-
-let result1: 3*2;
+let result = 10 * (20 / 2)let;

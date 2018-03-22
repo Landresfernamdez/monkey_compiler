@@ -1,4 +1,5 @@
 import generated.*;
+import listeners.ThrowingErrorListener;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -20,6 +21,8 @@ public class Main {
             inst = new Scanner(input);
             tokens=new CommonTokenStream(inst);
             parser=new generated.MonkeyParser(tokens);
+            parser.removeErrorListeners();
+            parser.addErrorListener(ThrowingErrorListener.INSTANCE);
         }
         catch(Exception e){System.out.println("No hay archivo");}
         try{

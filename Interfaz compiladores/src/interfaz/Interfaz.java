@@ -7,6 +7,7 @@ package interfaz;
 import generated.Scanner;
 import linea.TextLineNumber;
 import clasesCompiladores.Editor;
+import listeners.ThrowingErrorListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
@@ -17,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileReader;
+import java.util.LinkedList;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -33,10 +35,10 @@ public class Interfaz extends javax.swing.JFrame {
     ANTLRInputStream input=null;
     CommonTokenStream tokens = null;
     ParseTree tree=null;
+    public static LinkedList<String> msjsError;
     /**
      * Creates new form Interfaz
      */
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -177,6 +179,7 @@ public class Interfaz extends javax.swing.JFrame {
 	
 	public Interfaz(){
                 initComponents();
+                msjsError=new LinkedList<String>();
                 editor=new Editor();
                 scroll.setViewportView(PanelEdicion);
                 TextLineNumber lineNumber = new TextLineNumber(PanelEdicion);
@@ -235,19 +238,25 @@ public class Interfaz extends javax.swing.JFrame {
     private void compilePerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilePerformed
         // TODO add your handling code here:
         try {
+            msjsError.clear();
+            jTextArea1.setText("");
             input = new ANTLRInputStream(new FileReader(editor.archivo.nombre));
             inst = new Scanner(input);
             tokens=new CommonTokenStream(inst);
             parser=new generated.MonkeyParser(tokens);
+            parser.removeErrorListeners();
+            parser.addErrorListener(ThrowingErrorListener.INSTANCE);
         }
         catch(Exception e){System.out.println("No hay archivo");}
         try{
             tree =parser.program();
+            for (String i : this.msjsError)
+                jTextArea1.setText(jTextArea1.getText()+i+'\n');
            //System.out.print(tree.getText());
-            System.out.println("Compilacion exitosa!!\n");
+            jTextArea1.setText("Compilacion exitosa!!\n");
         }
         catch (RecognitionException e){
-            System.out.println("Compilacion fallida!!\n");
+            jTextArea1.setText("Compilacion fallida!!\n");
         }
     }//GEN-LAST:event_compilePerformed
         private void Showtree(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Showtree
