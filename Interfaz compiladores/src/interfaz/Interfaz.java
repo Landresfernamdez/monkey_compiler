@@ -253,7 +253,7 @@ public class Interfaz extends javax.swing.JFrame {
             for (String i : this.msjsError)
                 jTextArea1.setText(jTextArea1.getText()+i+'\n');
            //System.out.print(tree.getText());
-            jTextArea1.setText("Compilacion exitosa!!\n");
+            jTextArea1.setText(jTextArea1.getText()+"Compilacion exitosa!!\n");
         }
         catch (RecognitionException e){
             jTextArea1.setText("Compilacion fallida!!\n");
