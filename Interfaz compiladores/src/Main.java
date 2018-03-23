@@ -1,4 +1,5 @@
 import generated.*;
+import interfaz.Interfaz;
 import listeners.ThrowingErrorListener;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -12,6 +13,9 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args){
+
+        Interfaz i=new Interfaz();
+        i.setVisible(true);
         /*Scanner inst = null;
         generated.MonkeyParser parser=null;
         ANTLRInputStream input=null;

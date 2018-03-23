@@ -16,11 +16,9 @@ comparison:  (L additionExpression)*#ComparisonLess_monkey
             |(PE additionExpression)*#ComparisonPlusEqual_monkey
             |(EE additionExpression)*#ComparisonEqualEqual_monkey ;
 additionExpression: multiplicationExpression additionFactor#AdittionExpression_monkey;
-additionFactor: (SUM multiplicationExpression)*#AdittionFactorSUMA_monkey
-                |(SUB multiplicationExpression)*#AdittionFactorRESTA_monkey;
+additionFactor: ((SUM|SUB) multiplicationExpression)*#AdittionFactorSUMARESTA_monkey;
 multiplicationExpression: elementExpression multiplicationFactor #MultiplicationExpression_monkey;
-multiplicationFactor: (MUL elementExpression)*#MultiplicationFactorMUL_monkey
-                     |(DIV elementExpression)*#MultiplicationFactorDIV_monkey;
+multiplicationFactor: ((MUL|DIV) elementExpression)*#MultiplicationFactorMULDIV_monkey;
 elementExpression: primitiveExpression elementAccess#ElementExprssionPEElementAccess_monkey
                  | primitiveExpression callExpression#ElementExprssionPECallExpression_monkey
                  | primitiveExpression      #ElementExpressionPE_monkey;

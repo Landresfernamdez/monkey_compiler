@@ -237,22 +237,29 @@ public class Interfaz extends javax.swing.JFrame {
             jTextArea1.setText("");
             input = new ANTLRInputStream(new FileReader(editor.archivo.nombre));
             inst = new Scanner(input);
+            inst.removeErrorListeners();
+            inst.addErrorListener(ThrowingErrorListener.INSTANCE);
             tokens=new CommonTokenStream(inst);
             parser=new generated.MonkeyParser(tokens);
             parser.removeErrorListeners();
             parser.addErrorListener(ThrowingErrorListener.INSTANCE);
+            try{
+                tree =parser.program();
+                for (String i : this.msjsError)
+                    jTextArea1.setText(jTextArea1.getText()+i+'\n');
+                //System.out.print(tree.getText());
+                jTextArea1.setText(jTextArea1.getText()+"Compilacion exitosa!!\n");
+            }
+            catch (RecognitionException e){
+                jTextArea1.setText("Compilacion fallida!!\n");
+            }
         }
-        catch(Exception e){System.out.println("No hay archivo");}
-        try{
-            tree =parser.program();
-            for (String i : this.msjsError)
-                jTextArea1.setText(jTextArea1.getText()+i+'\n');
-           //System.out.print(tree.getText());
-            jTextArea1.setText(jTextArea1.getText()+"Compilacion exitosa!!\n");
-        }
-        catch (RecognitionException e){
-            jTextArea1.setText("Compilacion fallida!!\n");
-        }
+        catch(Exception e){
+            JFrame parent = new JFrame();
+            String multiLineMsg[] = { "Error,", " No ha guardado el archivo"} ;
+            JOptionPane.showMessageDialog(parent, multiLineMsg);
+            }
+
     }//GEN-LAST:event_compilePerformed
         private void Showtree(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Showtree
         // TODO add your handling code here:
