@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args){
-        Scanner inst = null;
+        /*Scanner inst = null;
         generated.MonkeyParser parser=null;
         ANTLRInputStream input=null;
         CommonTokenStream tokens = null;

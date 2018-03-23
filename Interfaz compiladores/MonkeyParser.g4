@@ -2,32 +2,57 @@ parser grammar MonkeyParser;
 options{
     tokenVocab=Scanner;
 }
-program:statement*;
-statement: LET letStatement|RETURN returnStatement|expressionStatement;
-letStatement: ID EQUAL expression  (PCOMA| );
-returnStatement	: expression  (PCOMA| );
-expressionStatement: expression  (PCOMA| );
-expression: additionExpression comparison;
-comparison: ((L|P|LE|PE|EE)  additionExpression)* ;
-additionExpression: multiplicationExpression additionFactor;
-additionFactor: ((SUM|SUB)  multiplicationExpression)*;
-multiplicationExpression: elementExpression multiplicationFactor ;
-multiplicationFactor: ((MUL|DIV) elementExpression)*;
-elementExpression: primitiveExpression (elementAccess | callExpression | );
-elementAccess: PCI expression PCD ;
-callExpression: PRI expressionList PRD;
-primitiveExpression: INTEGER|STRING|ID|TRUE|FALSE|PRI expression PRD | arrayLiteral |
-arrayFunctions PRI expressionList PRD | functionLiteral | hashLiteral | printExpression | ifExpression;
-arrayFunctions: LEN | FIRST | LAST | REST | PUSH;
-arrayLiteral: PCI expressionList PCD ;
-functionLiteral	: FN PRI functionParameters PRD blockStatement;
-functionParameters	: ID moreIdentifiers;
-moreIdentifiers	: (COMA ID)*;
-hashLiteral: LI hashContent moreHashContent LD;
-hashContent: expression DPTS expression;
-moreHashContent	: (COMA hashContent)*;
-expressionList: expression moreExpressions | ;
-moreExpressions: (COMA expression)*;
-printExpression: PUTS PRI expression PRD;
-ifExpression: IF expression blockStatement (ELSE blockStatement| );
-blockStatement	: LI (statement)* LD;
+program: statement*#Program_monkey;
+statement  : LET letStatement#Statement_let_monkey
+            | RETURN returnStatement#Statement_return_monkey
+            | expressionStatement#Statement_expressionStatement_monkey;
+letStatement: ID EQUAL expression  (PCOMA| )#LetStatement_monkey;
+returnStatement	: expression  (PCOMA| )#ReturnStatement_monkey;
+expressionStatement: expression  (PCOMA| )#ExpressionStatement_monkey;
+expression: additionExpression comparison#Expression_monkey;
+comparison:  (L additionExpression)*#ComparisonLess_monkey
+            |(P additionExpression)*#ComparisonPlus_monkey
+            |(LE additionExpression)*#ComparisonLessEqual_monkey
+            |(PE additionExpression)*#ComparisonPlusEqual_monkey
+            |(EE additionExpression)*#ComparisonEqualEqual_monkey ;
+additionExpression: multiplicationExpression additionFactor#AdittionExpression_monkey;
+additionFactor: (SUM multiplicationExpression)*#AdittionFactorSUMA_monkey
+                |(SUB multiplicationExpression)*#AdittionFactorRESTA_monkey;
+multiplicationExpression: elementExpression multiplicationFactor #MultiplicationExpression_monkey;
+multiplicationFactor: (MUL elementExpression)*#MultiplicationFactorMUL_monkey
+                     |(DIV elementExpression)*#MultiplicationFactorDIV_monkey;
+elementExpression: primitiveExpression elementAccess#ElementExprssionPEElementAccess_monkey
+                 | primitiveExpression callExpression#ElementExprssionPECallExpression_monkey
+                 | primitiveExpression      #ElementExpressionPE_monkey;
+elementAccess: PCI expression PCD #ElementAcces_monkey;
+callExpression: PRI expressionList PRD#CallExpression_monkey;
+primitiveExpression: INTEGER#PEInteger_monkey
+                    |STRING#PEString_monkey
+                    |ID#PEIdentifier_monkey
+                    |TRUE#PETrue_monkey
+                    |FALSE#PEFalse_monkey
+                    |PRI expression PRD#PEExpression_monkey
+                    | arrayLiteral#PEArrayLiteral_monkey
+                    | arrayFunctions PRI expressionList PRD#PEArrayFunctions_monkey
+                    | functionLiteral#PEFunctionsLiteral_monkey
+                    | hashLiteral#PEHashLiteral_monkey
+                    | printExpression#PEPrintExpression_monkey
+                    | ifExpression#PEIfExpression_monkey;
+arrayFunctions: LEN#ArrayFunctionsLEN_monkey
+                | FIRST#ArrayFunctionsFIRST_monkey
+                | LAST#ArrayFunctionsLAST_monkey
+                | REST#ArrayFunctionsREST_monkey
+                | PUSH#ArrayFunctionsPUSH_monkey;
+arrayLiteral: PCI expressionList PCD #ArrayLiteral_monkey;
+functionLiteral	: FN PRI functionParameters PRD blockStatement #FunctionLiteral_monkey;
+functionParameters	: ID moreIdentifiers #FunctionParameters_monkey;
+moreIdentifiers	: (COMA ID)*#MoreIdentifiers_monkey;
+hashLiteral: LI hashContent moreHashContent LD #HashLiteral_monkey;
+hashContent: expression DPTS expression#HashContet_monkey;
+moreHashContent	: (COMA hashContent)*#MoreHashContet_monkey;
+expressionList: expression moreExpressions #ExpressionListExpression_monkey
+| #ExpressionListVacio_monkey;
+moreExpressions: (COMA expression)* #MoreExpression_monkey;
+printExpression: PUTS PRI expression PRD#PrintExpression_monkey;
+ifExpression: IF expression blockStatement (ELSE blockStatement| )#IfExpression_monkey;
+blockStatement	: LI statement* LD#BlockStatement_monkey;

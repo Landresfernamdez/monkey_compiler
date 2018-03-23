@@ -1,28 +1,9 @@
 lexer grammar Scanner;
-//Expresiones regulares
-//Simbolos
-
+/*
+palabras reservadas
+*/
 LET:'let';
 RETURN:'return';
-ID: LETTER(LETTER|DIGIT)*;
-EQUAL:'=';
-PCOMA:';';
-L:'<';
-P:'>';
-LE:'<=';
-PE:'>=';
-EE:'==';
-SUM:'+';
-SUB:'-';
-MUL:'*';
-DIV:'/';
-PCI:'[';
-PCD:']';
-PRI:'(';
-PRD:')';
-DCOM:'"';
-INTEGER:DIGIT(DIGIT|DIGIT)*;
-STRING:DCOM LETTER(LETTER|SIGN)* DCOM;
 TRUE:'true';
 FALSE:'false';
 LEN:'len';
@@ -30,21 +11,48 @@ FIRST:'first';
 LAST:'last';
 REST:'rest';
 PUSH:'push';
-FN:'fn' ID;
+FN:'fn';
+PUTS:'puts';
+IF:'if';
+ELSE:'else';
+
+/*
+signos
+*/
+L:'<';
+P:'>';
+LE:'<=';
+PE:'>=';
+EE:'==';
+
+SUM:'+';
+SUB:'-';
+MUL:'*';
+DIV:'/';
+
+EQUAL:'=';
+PCOMA:';';
+PCI:'[';
+PCD:']';
+PRI:'(';
+PRD:')';
+DCOM:'"';
 COMA:',';
 LI:'{';
 LD:'}';
 DPTS:':';
-PUTS:'puts';
-IF:'if';
-ELSE:'else';
-NUM:DIGIT (DIGIT)*;
-OPERA:OPERATOR;
+
+ID: LETTER(LETTER|DIGIT)*;
+INTEGER: DIGIT DIGIT*;
+STRING: DCOM LETTER(LETTER|SIGN)* DCOM;
+
+
 BOOLEAN:TRUE|FALSE;
-fragment SIGN: EQUAL|PCOMA|L|P|OPERA|PCI|PCD|PRI|PRD|COMA|LI|LD|DPTS|LE|PE|EE|NUM;
+fragment SIGN: EQUAL|PCOMA|L|P|PCI|PCD|PRI|PRD|COMA|LI|LD|DPTS|LE|PE|EE|DIGIT;
 fragment LETTER :'a'..'z' | 'A'..'Z'|'_';
 fragment DIGIT :'0'..'9';
-fragment OPERATOR: '+'|'-'|'*'|'/';
+
+
 WS : [ \t\n\r]+ -> skip;
 LINE_COMMENT:   '//'.*?'\r'?'\n' -> skip ;
 SPECIAL_COMMENT: '/*'( SPECIAL_COMMENT | . )*?'*/' -> skip;
