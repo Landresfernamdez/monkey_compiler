@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.LinkedList;
 import javax.swing.*;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 /**
  *
@@ -46,9 +48,10 @@ public class Interfaz extends javax.swing.JFrame {
         jToolBar1 = new javax.swing.JToolBar();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        PanelEdicion = new javax.swing.JTextPane();
         scroll = new javax.swing.JScrollPane();
+        lcolum = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        PanelEdicion = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menuOpen = new javax.swing.JMenuItem();
@@ -67,7 +70,12 @@ public class Interfaz extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
-        jScrollPane3.setViewportView(PanelEdicion);
+        lcolum.setFont(new java.awt.Font("Tw Cen MT", 0, 10)); // NOI18N
+        lcolum.setText("1");
+
+        PanelEdicion.setColumns(20);
+        PanelEdicion.setRows(5);
+        jScrollPane1.setViewportView(PanelEdicion);
 
         jMenu1.setText("File");
         jMenu1.addActionListener(new java.awt.event.ActionListener() {
@@ -128,14 +136,7 @@ public class Interfaz extends javax.swing.JFrame {
         jMenuItem2.setText("Show tree");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try{
-                    Showtree(evt);
-                }
-                catch(Exception exc ){
-                    JFrame parent = new JFrame();
-                    String multiLineMsg[] = { "Error,", " debe compilar para cargar el arbol"} ;
-                    JOptionPane.showMessageDialog(parent, multiLineMsg);
-                }
+                Showtree(evt);
             }
         });
         jMenu3.add(jMenuItem2);
@@ -155,19 +156,27 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(scroll)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(lcolum)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(lcolum)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(scroll)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        lcolum.getAccessibleContext().setAccessibleName("lcolum");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -176,10 +185,30 @@ public class Interfaz extends javax.swing.JFrame {
                 initComponents();
                 msjsError=new LinkedList<String>();
                 editor=new Editor();
+                PanelEdicion.addCaretListener(new CaretListener() {
+                    @Override
+                    public void caretUpdate(CaretEvent e) {
+                        JTextArea editArea = (JTextArea)e.getSource();
+                        int linea = 1;
+                        int columna = 1;
+                        try {
+                            int caretpos = editArea.getCaretPosition();
+                            linea= editArea.getLineOfOffset(caretpos);
+                            columna = caretpos - editArea.getLineStartOffset(linea);
+
+                            // Ya que las líneas las cuenta desde la 0
+                            linea += 1;
+                        } catch(Exception ex) { }
+                        // Actualizamos el estado
+                        actualizarEstado(linea, columna);
+                    }
+                });
                 scroll.setViewportView(PanelEdicion);
                 TextLineNumber lineNumber = new TextLineNumber(PanelEdicion);
                 scroll.setRowHeaderView(lineNumber);
-	}
+	}    private void actualizarEstado(int linea, int columna) {
+        lcolum.setText("Linea: " + linea + " Columna: " + columna);
+    }
     private void menuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpenActionPerformed
         // TODO add your handling code here:
         JFileChooser fc = new JFileChooser();
@@ -319,17 +348,18 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextPane PanelEdicion;
+    private javax.swing.JTextArea PanelEdicion;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JLabel lcolum;
     private javax.swing.JMenuItem menuCreate;
     private javax.swing.JMenuItem menuOpen;
     private javax.swing.JMenuItem menuSave;
