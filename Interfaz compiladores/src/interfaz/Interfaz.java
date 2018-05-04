@@ -12,7 +12,7 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
-
+import  checker.checker;
 import java.io.File;
 import java.io.FileReader;
 import java.util.LinkedList;
@@ -274,6 +274,9 @@ public class Interfaz extends javax.swing.JFrame {
             parser.addErrorListener(ThrowingErrorListener.INSTANCE);
             try{
                 tree =parser.program();
+                checker c=new checker();
+                c.visit(tree);
+
                 for (String i : this.msjsError)
                     jTextArea1.setText(jTextArea1.getText()+i+'\n');
                 //System.out.print(tree.getText());
