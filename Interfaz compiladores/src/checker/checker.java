@@ -82,16 +82,11 @@ public class checker extends MonkeyParserBaseVisitor{
         if(temporal!=-1){
             comparisonExpresion=temporal;
             int retorno2=(Integer)visit(ctx.comparison());
-            if(retorno2!=-1 && retorno2!=13){
-                retorno=retorno2;
+            if(retorno2!=-1){
+                retorno=temporal;
             }
             else{
-                if(retorno2==-1){
-                    retorno=-1;
-                }
-                else if(retorno2==13){
-                    retorno=temporal;
-                }
+                retorno=temporal;
             }
         }
         return retorno;
@@ -279,11 +274,8 @@ public class checker extends MonkeyParserBaseVisitor{
                 temporal=-1;
             }
             else if(retorno!=-1 && retorno1!=-1){
-                if(retorno==5 && retorno1==2){
+                if((retorno==5|retorno==12) && (retorno1==2|retorno1==4)){
                     temporal=retorno1;
-                }
-                else if(retorno==12){
-                    temporal=retorno;
                 }
                 else{
                     System.out.println("retorno:"+retorno);
@@ -476,7 +468,15 @@ public class checker extends MonkeyParserBaseVisitor{
         int retorno=(Integer)visit(ctx.expression(0));
         int retorno1=(Integer)visit(ctx.expression(1));
         if(retorno!=-1 && retorno1!=-1){
-            data=12;
+            if(retorno==2 | retorno==4){
+                data=12;
+            }
+            else{
+                System.out.println("Error de tipos en el hash, solo pueden ser enteros o identificadores");
+            }
+        }
+        else{
+            System.out.println("Error de tipos en el hash, solo pueden ser enteros o identificadores");
         }
         return data;
     }
@@ -535,17 +535,40 @@ public class checker extends MonkeyParserBaseVisitor{
         int temporal=(Integer)visit(ctx.expression());
         System.out.println(temporal);
         if(temporal!=-1){
-            retorna=temporal;
-            visit(ctx.blockStatement(0));
-            visit(ctx.blockStatement(1));
+            if(temporal!=-1){
+                if(temporal==1 | temporal==4){
+                    if(ctx.blockStatement(0)!=null && ctx.blockStatement(1)!=null){
+                        visit(ctx.blockStatement(0));
+                        visit(ctx.blockStatement(1));
+                        retorna=temporal;
+                    }
+                }
+                else{
+                    System.out.println("Error en la sentencia if solo se permiten boolean o identifiers");
+                }
+            }
+            else{
+                if(ctx.blockStatement(0)!=null && ctx.blockStatement(1)!=null){
+                    visit(ctx.blockStatement(0));
+                    visit(ctx.blockStatement(1));
+                    retorna=temporal;
+                }
+            }
+
         }
         return retorna;
     }
 
     @Override
     public Object visitBlockStatement_monkey(MonkeyParser.BlockStatement_monkeyContext ctx) {
+        int retorna=-1;
         for(MonkeyParser.StatementContext ele:ctx.statement())
-            visit(ele);
-        return null;
+            if((Integer)visit(ele)!=-1)
+                retorna=(Integer)visit(ele);
+            else{
+                retorna=-1;
+                break;
+            }
+        return retorna;
     }
 }
