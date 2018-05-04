@@ -17,29 +17,27 @@ public class checker extends MonkeyParserBaseVisitor{
 
     @Override
     public Object visitStatement_let_monkey(MonkeyParser.Statement_let_monkeyContext ctx) {
-        visit(ctx.letStatement());
-        return null;
-    }
-    @Override
-    public Object visitStatement_return_monkey(MonkeyParser.Statement_return_monkeyContext ctx) {
-        visit(ctx.returnStatement());
-        return  null;
+        return (Integer)visit(ctx.letStatement());
 
     }
     @Override
+    public Object visitStatement_return_monkey(MonkeyParser.Statement_return_monkeyContext ctx) {
+        return  (Integer)visit(ctx.returnStatement());
+    }
+    @Override
     public Object visitStatement_expressionStatement_monkey(MonkeyParser.Statement_expressionStatement_monkeyContext ctx) {
-        visit(ctx.expressionStatement());
         this.table.imprimir();
-        return null;
+        return (Integer)visit(ctx.expressionStatement());
     }
     int temporaldentifiertype =0;
     @Override
     public Object visitLetStatement_monkey(MonkeyParser.LetStatement_monkeyContext ctx) {
         temporaldentifiertype =0;
+        int retorna=-1;
         SymbolTable.Ident ta=this.table.buscar(ctx.ID().getText());
         if(ta!=null){
             int te=(Integer)visit(ctx.expression());
-            System.out.println("La variable ya fue declarada una vez");
+            System.out.println("La variable"+ctx.ID().getText()+" ya fue declarada una vez");
             if(ta.type!=te){
                 System.out.println("Tipos incompatibles en la asignacion");
             }
@@ -50,9 +48,10 @@ public class checker extends MonkeyParserBaseVisitor{
                 int tipo=retorno;
                 this.table.insertar(ctx.ID().getText(),tipo,ctx);
                 this.table.imprimir();
+                retorna=retorno;
             }
         }
-        return null;
+        return retorna;
     }
     @Override
     public Object visitReturnStatement_monkey(MonkeyParser.ReturnStatement_monkeyContext ctx) {
@@ -537,11 +536,15 @@ public class checker extends MonkeyParserBaseVisitor{
         if(temporal!=-1){
             if(temporal!=-1){
                 if(temporal==1 | temporal==4){
-                    if(ctx.blockStatement(0)!=null && ctx.blockStatement(1)!=null){
-                        visit(ctx.blockStatement(0));
-                        visit(ctx.blockStatement(1));
-                        retorna=temporal;
-                    }
+                    if((Integer)visit(ctx.blockStatement(0))!=-1)
+                        System.out.println("Entro a la prueba");
+                        if((Integer)visit(ctx.blockStatement(1))!=-1){
+                            System.out.println("Entro a la prueba");
+                            retorna=temporal;
+                        }
+                        else{
+
+                        }
                 }
                 else{
                     System.out.println("Error en la sentencia if solo se permiten boolean o identifiers");
@@ -549,9 +552,14 @@ public class checker extends MonkeyParserBaseVisitor{
             }
             else{
                 if(ctx.blockStatement(0)!=null && ctx.blockStatement(1)!=null){
-                    visit(ctx.blockStatement(0));
-                    visit(ctx.blockStatement(1));
-                    retorna=temporal;
+                    if((Integer)visit(ctx.blockStatement(0))!=-1)
+                        System.out.println("entro a prueba");
+                        if((Integer)visit(ctx.blockStatement(1))!=-1){
+                            retorna=temporal;
+                        }
+                        else{
+
+                        }
                 }
             }
 
@@ -569,6 +577,8 @@ public class checker extends MonkeyParserBaseVisitor{
                 retorna=-1;
                 break;
             }
+
+        System.out.println("Entro a prueba retorna:"+retorna);
         return retorna;
     }
 }
