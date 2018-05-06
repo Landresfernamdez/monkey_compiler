@@ -9,23 +9,29 @@ import java.util.LinkedList;
 /**
  * Created by oviquez on 21/3/2018.
  */
-public class SymbolTable {
+public class SymbolTableFn {
 
     private LinkedList<Ident> tabla;
     private int nivelActual;
 
     public class Ident{
+        int parametros; //los parametros que trae la funcion
+        int tipoDeRetornoFn; //tipo de retorno de la funcion
         int nivel;
         Token tok;
         int type; //forma simple de identificar un tipo del lenguaje [0--> Entero] NO ES TAN CECESARIO EN ESTE LENGUAJE ALPHA PUESTO QUE SOLO ACEPTA NUMEROS
         ParserRuleContext decl; //por si fuera necesario saber más acerca del contexto del identificador en el árbol
 
 
-        public Ident(int n, Token t, int ty, ParserRuleContext d) {
+
+        public Ident(int param,int retorna,int n, Token t, int ty, ParserRuleContext d) {
+            parametros=param;
+            tipoDeRetornoFn=retorna;
             nivel = n;
             tok = t;
             type = ty;
             decl = d;
+
         }
 
         public String toString(){
@@ -33,16 +39,16 @@ public class SymbolTable {
         }
     }
 
-    public SymbolTable()
+    public SymbolTableFn()
     {
         this.nivelActual = -1;
         this.tabla = new LinkedList<Ident>();
     }
 
-    public Ident insertar(String nombre, int tipo, ParserRuleContext declaracion)
+    public Ident insertar(int param,int retorna,String nombre, int tipo, ParserRuleContext declaracion)
     {
         Token token = new CommonToken(0,nombre);
-        Ident i = new Ident(nivelActual,token,tipo,declaracion);
+        Ident i = new Ident(param,retorna,nivelActual,token,tipo,declaracion);
         int j = 0;
         while (j < this.tabla.size() && this.tabla.get(j).nivel == nivelActual) {
             if (this.tabla.get(j).tok.getText().equals(nombre)) {
@@ -55,11 +61,11 @@ public class SymbolTable {
         return this.tabla.get(0);
     }
 
-    public Ident insertar(Token token, int tipo, ParserRuleContext declaracion)
+    public Ident insertar(int param,int retorna,Token token, int tipo, ParserRuleContext declaracion)
     {
-        Ident i = new Ident(nivelActual,token,tipo,declaracion);
+        Ident i = new Ident( param, retorna,nivelActual,token,tipo,declaracion);
         int j = 0;
-        while (j < this.tabla.size() && this.tabla.get(j).nivel == nivelActual) {
+        while (j < this.tabla.size()) {
             if (this.tabla.get(j).tok.getText().equals(token.getText())) {
                 System.out.println("El identificador \"" + token.getText() + "\" ya ha sido declarado. Line " + token.getLine() + ":" + token.getCharPositionInLine());
                 return null;
@@ -99,14 +105,14 @@ public class SymbolTable {
     }
 
     public void imprimir(){
-        System.out.println("****** ESTADO DE TABLA DE SÍMBOLOS ******");
+        System.out.println("****** ESTADO DE TABLA DE SÍMBOLOS FUNCIONES ******");
         if (!this.tabla.isEmpty()) {
             for (Ident i : this.tabla){
                 String nivel = "";
                 for (int j = 0; j < i.nivel; j++) {
                     nivel += "\t";
                 }
-                System.out.println(nivel + "Nombre: " + i.tok.getText() + " - Nivel: " + i.nivel+"Tipo:"+i.type);
+                System.out.println(nivel + "Nombre: " + i.tok.getText() + " - Nivel: " + i.nivel+"Tipo:"+i.type +" Parametros "+i.parametros);
             }
             System.out.println("------------------------------------------");
         }

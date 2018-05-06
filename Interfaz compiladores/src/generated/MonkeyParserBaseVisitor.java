@@ -1,4 +1,4 @@
-// Generated from R:/ProyectsGit/monkey_compiler/Interfaz compiladores\MonkeyParser.g4 by ANTLR 4.7
+// Generated from C:/Users/Jurguen/Desktop/Proyectos 2018/Segundo proyecto lenguaje/Primerproyecto programado Jurguen Romero Andres Fernandez/monkey_compiler-master/monkey_compiler-master/Interfaz compiladores\MonkeyParser.g4 by ANTLR 4.7
 package generated;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
