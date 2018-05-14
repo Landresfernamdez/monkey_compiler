@@ -21,8 +21,18 @@
       <file leaf-file-name="MonkeyParser.g4" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MonkeyParser.g4">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="37" column="56" lean-forward="false" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="56" />
+            <state relative-caret-position="108">
+              <caret line="11" column="59" lean-forward="false" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="59" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Scanner.g4" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Scanner.g4">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-253">
+              <caret line="18" column="2" lean-forward="false" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -41,22 +51,22 @@
       <file leaf-file-name="checker.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/checker/checker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
-              <caret line="236" column="30" lean-forward="false" selection-start-line="236" selection-start-column="16" selection-end-line="236" selection-end-column="30" />
+            <state relative-caret-position="66">
+              <caret line="777" column="57" lean-forward="true" selection-start-line="777" selection-start-column="57" selection-end-line="777" selection-end-column="57" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#17432#17433#0" expanded="true" />
-                <element signature="e#17466#17467#0" expanded="true" />
-                <element signature="e#17563#17564#0" expanded="true" />
-                <element signature="e#17597#17598#0" expanded="true" />
-                <element signature="e#17702#17703#0" expanded="true" />
-                <element signature="e#17740#17741#0" expanded="true" />
-                <element signature="e#17837#17838#0" expanded="true" />
-                <element signature="e#17872#17873#0" expanded="true" />
-                <element signature="e#17967#17968#0" expanded="true" />
-                <element signature="e#18002#18003#0" expanded="true" />
-                <element signature="e#19852#19853#0" expanded="true" />
-                <element signature="e#19884#19885#0" expanded="true" />
+                <element signature="e#21208#21209#0" expanded="true" />
+                <element signature="e#21242#21243#0" expanded="true" />
+                <element signature="e#21339#21340#0" expanded="true" />
+                <element signature="e#21373#21374#0" expanded="true" />
+                <element signature="e#21478#21479#0" expanded="true" />
+                <element signature="e#21516#21517#0" expanded="true" />
+                <element signature="e#21613#21614#0" expanded="true" />
+                <element signature="e#21648#21649#0" expanded="true" />
+                <element signature="e#21743#21744#0" expanded="true" />
+                <element signature="e#21778#21779#0" expanded="true" />
+                <element signature="e#23628#23629#0" expanded="true" />
+                <element signature="e#23660#23661#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -73,36 +83,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>expressionList</find>
-      <find>Este dato no puede realizar esta operación</find>
-      <find>ExpressionListExpression_monkey</find>
-      <find>call</find>
-      <find>HashContet_monkey</find>
-      <find>HashLi</find>
       <find>HashLiteral_monkey</find>
       <find>MoreHashContet_monkey</find>
       <find>System.out.println(retorno)</find>
       <find>A ocurrido un error</find>
       <find>ReturnStatement_monkey</find>
-      <find>Statement_expressionStatement_monkey</find>
-      <find>ComparisonLess_monkey</find>
-      <find>ExpressionStatement_monkey</find>
-      <find>Expression_monkey</find>
       <find>MultiplicationExpression_monkey</find>
       <find>ElementExprssionPECallExpression_monkey</find>
       <find>ElementExprssionPEElementAccess_monkey</find>
       <find>PEPrintExpression_monkey</find>
       <find>PETrue_monkey</find>
       <find>tipo_B</find>
-      <find>Error en el primer elmento del if</find>
       <find>AdittionExpression_monkey</find>
-      <find>ElementExpressionPE_monkey</find>
       <find>PEArrayLiteral_monkey</find>
       <find>PEArrayFunctions_monkey</find>
       <find>PEFunctionsLiteral_monkey</find>
       <find>PEHashLiteral_monkey</find>
       <find>PrintExpression_monkey</find>
       <find>System.out.pri</find>
+      <find>ElementExpressionPE_monkey</find>
+      <find>ComparisonLess_monkey</find>
+      <find>Error en el primer elmento del if</find>
+      <find>Error en el contenido del bloque de codigo del if</find>
+      <find>Statement_expressionStatement_monkey</find>
+      <find>ExpressionStatement_monkey</find>
+      <find>Statement_return_monkey</find>
+      <find>compa</find>
+      <find>BlockStatement_monkey</find>
+      <find>LetStatement_monkey</find>
+      <find>Expression_monkey</find>
+      <find>IfExpression_monkey</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -120,9 +130,9 @@
         <option value="$PROJECT_DIR$/test.txt" />
         <option value="$PROJECT_DIR$/src/checker/SymbolTable.java" />
         <option value="$PROJECT_DIR$/Scanner.g4" />
-        <option value="$PROJECT_DIR$/MonkeyParser.g4" />
         <option value="$PROJECT_DIR$/src/checker/SymbolTableFn.java" />
         <option value="$PROJECT_DIR$/src/interfaz/Interfaz.java" />
+        <option value="$PROJECT_DIR$/MonkeyParser.g4" />
         <option value="$PROJECT_DIR$/src/checker/checker.java" />
       </list>
     </option>
@@ -147,10 +157,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
       <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -163,43 +170,22 @@
               <item name="Interfaz compiladores" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="Interfaz compiladores" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Interfaz compiladores" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="checker" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Interfaz compiladores" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Interfaz compiladores" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="generated" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Interfaz compiladores" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Interfaz compiladores" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="interfaz" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Interfaz compiladores" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Interfaz compiladores" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="listeners" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="$PROJECT_DIR$/MonkeyParser.g4::/auto-gen" value="true" />
-    <property name="$PROJECT_DIR$/MonkeyParser.g4::/output-dir" value="R:\ProyectsGit\monkey_compiler\Interfaz compiladores\src" />
+    <property name="$PROJECT_DIR$/MonkeyParser.g4::/output-dir" value="R:\ProyectsGit\monkey_compiler\Progra\Interfaz compiladores\src" />
     <property name="$PROJECT_DIR$/MonkeyParser.g4::/package" value="generated" />
     <property name="$PROJECT_DIR$/MonkeyParser.g4::/language" value="Java" />
     <property name="$PROJECT_DIR$/MonkeyParser.g4::/gen-listener" value="false" />
@@ -316,24 +302,23 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16776316" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.088815786" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26644737" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12664473" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.59539473" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.006807867" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15733737" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.027987897" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="ANTLR Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.03125" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24960753" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -346,6 +331,8 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.006807867" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -411,15 +398,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1496">
           <caret line="238" column="38" lean-forward="false" selection-start-line="238" selection-start-column="38" selection-end-line="238" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1340#1429#0" expanded="false" />
-            <element signature="e#12914#12915#0" expanded="false" />
-            <element signature="e#12959#12960#0" expanded="false" />
-            <element signature="e#13004#13005#0" expanded="false" />
-            <element signature="e#13051#13052#0" expanded="false" />
-            <element signature="e#13217#13304#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -478,15 +457,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1496">
           <caret line="238" column="38" lean-forward="false" selection-start-line="238" selection-start-column="38" selection-end-line="238" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1340#1429#0" expanded="false" />
-            <element signature="e#12914#12915#0" expanded="false" />
-            <element signature="e#12959#12960#0" expanded="false" />
-            <element signature="e#13004#13005#0" expanded="false" />
-            <element signature="e#13051#13052#0" expanded="false" />
-            <element signature="e#13217#13304#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -537,15 +508,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4454">
           <caret line="262" column="9" lean-forward="false" selection-start-line="262" selection-start-column="9" selection-end-line="262" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1340#1429#0" expanded="false" />
-            <element signature="e#12914#12915#0" expanded="false" />
-            <element signature="e#12959#12960#0" expanded="false" />
-            <element signature="e#13004#13005#0" expanded="false" />
-            <element signature="e#13051#13052#0" expanded="false" />
-            <element signature="e#13217#13304#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -611,15 +574,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3383">
           <caret line="199" column="13" lean-forward="true" selection-start-line="199" selection-start-column="13" selection-end-line="199" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1340#1429#0" expanded="false" />
-            <element signature="e#12914#12915#0" expanded="false" />
-            <element signature="e#12959#12960#0" expanded="false" />
-            <element signature="e#13004#13005#0" expanded="false" />
-            <element signature="e#13051#13052#0" expanded="false" />
-            <element signature="e#13217#13304#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -687,13 +642,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scanner.g4">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="8" lean-forward="false" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/generated/MonkeyParser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="282">
@@ -714,13 +662,13 @@
         <state relative-caret-position="34">
           <caret line="38" column="5" lean-forward="true" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1063#1064#0" expanded="true" />
-            <element signature="e#1131#1132#0" expanded="true" />
-            <element signature="e#2621#2622#0" expanded="true" />
-            <element signature="e#2655#2656#0" expanded="true" />
-            <element signature="e#3925#3926#0" expanded="true" />
-            <element signature="e#3958#3959#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1063#1064#0" expanded="false" />
+            <element signature="e#1131#1132#0" expanded="false" />
+            <element signature="e#2621#2622#0" expanded="false" />
+            <element signature="e#2655#2656#0" expanded="false" />
+            <element signature="e#3925#3926#0" expanded="false" />
+            <element signature="e#3958#3959#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -746,32 +694,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Scanner.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-253">
+          <caret line="18" column="2" lean-forward="false" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/MonkeyParser.g4">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="37" column="56" lean-forward="false" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="56" />
+        <state relative-caret-position="108">
+          <caret line="11" column="59" lean-forward="false" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="59" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/checker/checker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="236" column="30" lean-forward="false" selection-start-line="236" selection-start-column="16" selection-end-line="236" selection-end-column="30" />
+        <state relative-caret-position="66">
+          <caret line="777" column="57" lean-forward="true" selection-start-line="777" selection-start-column="57" selection-end-line="777" selection-end-column="57" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#17432#17433#0" expanded="true" />
-            <element signature="e#17466#17467#0" expanded="true" />
-            <element signature="e#17563#17564#0" expanded="true" />
-            <element signature="e#17597#17598#0" expanded="true" />
-            <element signature="e#17702#17703#0" expanded="true" />
-            <element signature="e#17740#17741#0" expanded="true" />
-            <element signature="e#17837#17838#0" expanded="true" />
-            <element signature="e#17872#17873#0" expanded="true" />
-            <element signature="e#17967#17968#0" expanded="true" />
-            <element signature="e#18002#18003#0" expanded="true" />
-            <element signature="e#19852#19853#0" expanded="true" />
-            <element signature="e#19884#19885#0" expanded="true" />
+            <element signature="e#21208#21209#0" expanded="true" />
+            <element signature="e#21242#21243#0" expanded="true" />
+            <element signature="e#21339#21340#0" expanded="true" />
+            <element signature="e#21373#21374#0" expanded="true" />
+            <element signature="e#21478#21479#0" expanded="true" />
+            <element signature="e#21516#21517#0" expanded="true" />
+            <element signature="e#21613#21614#0" expanded="true" />
+            <element signature="e#21648#21649#0" expanded="true" />
+            <element signature="e#21743#21744#0" expanded="true" />
+            <element signature="e#21778#21779#0" expanded="true" />
+            <element signature="e#23628#23629#0" expanded="true" />
+            <element signature="e#23660#23661#0" expanded="true" />
           </folding>
         </state>
       </provider>

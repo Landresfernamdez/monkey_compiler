@@ -1,6 +1,9 @@
 package checker;
 import generated.MonkeyParser;
 import generated.MonkeyParserBaseVisitor;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
+import java.io.EOFException;
 
 public class checker extends MonkeyParserBaseVisitor{
     SymbolTable table=null;
@@ -22,6 +25,7 @@ public class checker extends MonkeyParserBaseVisitor{
     int tipoNeutro=0;
     boolean acepta=false;
     int contadorG=0;
+    boolean banderaifoneexpression=false;
     public checker(){
         this.tableFn=new SymbolTableFn();
         this.table=new SymbolTable();
@@ -43,12 +47,18 @@ public class checker extends MonkeyParserBaseVisitor{
     }
     @Override
     public Object visitStatement_return_monkey(MonkeyParser.Statement_return_monkeyContext ctx) {
+        if(ctx.returnStatement()==null){
+            return tipo_NULL;
+        }
         return  (Integer)visit(ctx.returnStatement());
     }
     @Override
     public Object visitStatement_expressionStatement_monkey(MonkeyParser.Statement_expressionStatement_monkeyContext ctx) {
-        this.table.imprimir();
-        return (Integer)visit(ctx.expressionStatement());
+        if(ctx.expressionStatement()==null){
+            return tipo_NULL;
+        }
+        int retorno=(Integer)visit(ctx.expressionStatement());
+        return retorno;
     }
     int temporaldentifiertype =0;
     @Override
@@ -74,6 +84,7 @@ public class checker extends MonkeyParserBaseVisitor{
                     System.out.println("Error!!");
                 }
                 else {
+                    retorna=retorno;
                     this.table.insertar(ctx.ID().getText(),tipo,ctx);
                     this.table.imprimir();
                 }
@@ -105,20 +116,24 @@ public class checker extends MonkeyParserBaseVisitor{
     @Override
     public Object visitExpression_monkey(MonkeyParser.Expression_monkeyContext ctx) {
         int temporal=(Integer) visit(ctx.additionExpression());
+        comparisonExpresion=temporal;
+        int temporal1=(Integer)visit(ctx.comparison());
         int retorno=tipoError;
         if(acepta){
             contadorG=contadorG+1;
         }
-        if(ctx.additionExpression()!=null && ctx.comparison()==null){
+        if(temporal!=tipo_NULL && temporal1==tipo_NULL){
             if(temporal!=tipoError){
+                if(banderaIfActivate==true){
+                    banderaifoneexpression=true;
+                }
                     retorno=temporal;
             }
         }
-        else if(ctx.additionExpression()!=null && ctx.comparison()!=null){
+        else if(temporal!=tipo_NULL && temporal1!=tipo_NULL){
             if(temporal!=tipoError){
-                comparisonExpresion=temporal;
-                int retorno2=(Integer)visit(ctx.comparison());
-                if(retorno2!=tipoError){
+                temporal1=(Integer)visit(ctx.comparison());
+                if(temporal1!=tipoError){
                     retorno=temporal;
                 }
                 else{
@@ -127,7 +142,7 @@ public class checker extends MonkeyParserBaseVisitor{
             }else{
                 System.out.println("Error en el primer elmento del if");
             }
-        }else if(ctx.additionExpression()==null && ctx.comparison()==null){
+        }else if(temporal==tipo_NULL && temporal1==tipo_NULL){
             return tipoError;
         }
         return retorno;
@@ -138,17 +153,36 @@ public class checker extends MonkeyParserBaseVisitor{
         if(ctx.additionExpression().size()==0){
             return 13;
         }
-        if(existe(comparisonExpresion, listaValidaComparisons)==false){
+        if(existe(comparisonExpresion,listaValidaComparisons)==false){
             retorno=tipoError;
+            System.out.println("Error en la declaracion del if, estos tipos no se comparar");
             return retorno;
         }
         int temporal=0;
+        int ant=comparisonExpresion;
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             temporal=(Integer)visit(ele);
             if(existe(temporal, listaValidaComparisons)==false){
-                System.out.println("Error en la declaracion del if");
+                System.out.println("Error en la declaracion del if, estos tipos no se pueden comparar");
                 retorno=tipoError;
                 break;
+            }
+            else{
+                if(ant!=temporal){
+                    if((ant!=tipo_Identifier)|(temporal!=tipo_Identifier)){
+                        retorno=tipoError;
+                        System.out.println("Error en la declaracion del if, estos tipos no se pueden comparar");
+                        break;
+                    }
+                    else{
+                        ant=temporal;
+                        retorno=temporal;
+                    }
+                }
+                else{
+                    ant=temporal;
+                    retorno=temporal;
+                }
             }
         }
         return retorno;
@@ -160,17 +194,37 @@ public class checker extends MonkeyParserBaseVisitor{
         if(ctx.additionExpression().size()==0){
             return 13;
         }
-        if(existe(comparisonExpresion, listaValidaComparisons)==false){
+        if(existe(comparisonExpresion,listaValidaComparisons)==false){
             retorno=tipoError;
+            System.out.println("Error en la declaracion del if, estos tipos no se comparar"+comparisonExpresion);
             return retorno;
         }
         int temporal=0;
+        int ant=comparisonExpresion;
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             temporal=(Integer)visit(ele);
+            System.out.println("Pureba");
             if(existe(temporal, listaValidaComparisons)==false){
-                System.out.println("Error en la declaracion del if");
+                System.out.println("Error en la declaracion del if, estos tipos no se pueden comparar");
                 retorno=tipoError;
                 break;
+            }
+            else{
+                if(ant!=temporal){
+                    if((ant!=tipo_Identifier)|(temporal!=tipo_Identifier)){
+                        retorno=tipoError;
+                        System.out.println("Error en la declaracion del if, estos tipos no se pueden comparar");
+                        break;
+                    }
+                    else{
+                        ant=temporal;
+                        retorno=temporal;
+                    }
+                }
+                else{
+                    ant=temporal;
+                    retorno=temporal;
+                }
             }
         }
         return retorno;
@@ -182,17 +236,37 @@ public class checker extends MonkeyParserBaseVisitor{
         if(ctx.additionExpression().size()==0){
             return 13;
         }
-        if(existe(comparisonExpresion, listaValidaComparisons)==false){
+        if(existe(comparisonExpresion,listaValidaComparisons)==false){
             retorno=tipoError;
+            System.out.println("Error en la declaracion del if, estos tipos no se comparar"+comparisonExpresion);
             return retorno;
         }
         int temporal=0;
+        int ant=comparisonExpresion;
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             temporal=(Integer)visit(ele);
+            System.out.println("Pureba");
             if(existe(temporal, listaValidaComparisons)==false){
-                System.out.println("Error en la declaracion del if");
+                System.out.println("Error en la declaracion del if, estos tipos no se pueden comparar");
                 retorno=tipoError;
                 break;
+            }
+            else{
+                if(ant!=temporal){
+                    if((ant!=tipo_Identifier)|(temporal!=tipo_Identifier)){
+                        retorno=tipoError;
+                        System.out.println("Error en la declaracion del if, estos tipos no se pueden comparar");
+                        break;
+                    }
+                    else{
+                        ant=temporal;
+                        retorno=temporal;
+                    }
+                }
+                else{
+                    ant=temporal;
+                    retorno=temporal;
+                }
             }
         }
         return retorno;
@@ -204,17 +278,36 @@ public class checker extends MonkeyParserBaseVisitor{
         if(ctx.additionExpression().size()==0){
             return 13;
         }
-        if(existe(comparisonExpresion, listaValidaComparisons)==false){
+        if(existe(comparisonExpresion,listaValidaComparisons)==false){
             retorno=tipoError;
+            System.out.println("Error en la declaracion del if, estos tipos no se comparar"+comparisonExpresion);
             return retorno;
         }
         int temporal=0;
+        int ant=comparisonExpresion;
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             temporal=(Integer)visit(ele);
             if(existe(temporal, listaValidaComparisons)==false){
-                System.out.println("Error en la declaracion del if");
+                System.out.println("Error en la declaracion del if, estos tipos no se pueden comparar");
                 retorno=tipoError;
                 break;
+            }
+            else{
+                if(ant!=temporal){
+                    if((ant!=tipo_Identifier)|(temporal!=tipo_Identifier)){
+                        retorno=tipoError;
+                        System.out.println("Error en la declaracion del if, estos tipos no se pueden comparar");
+                        break;
+                    }
+                    else{
+                        ant=temporal;
+                        retorno=temporal;
+                    }
+                }
+                else{
+                    ant=temporal;
+                    retorno=temporal;
+                }
             }
         }
         return retorno;
@@ -228,40 +321,33 @@ public class checker extends MonkeyParserBaseVisitor{
         }
         if(existe(comparisonExpresion,listaEqual)==false){
             retorno=tipoError;
+            System.out.println("Error en la declaracion del if, estos tipos no se pueden igualar no mames"+comparisonExpresion);
             return retorno;
         }
         int temporal=0;
+        int ant=comparisonExpresion;
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             temporal=(Integer)visit(ele);
             if(existe(temporal, listaEqual)==false){
-                System.out.println("Error en la declaracion del if");
+                System.out.println("Error en la declaracion del if, estos tipos no se pueden igualar");
                 retorno=tipoError;
                 break;
             }
             else{
-                if(comparisonExpresion==tipo_String){
-                    if(temporal==tipo_String){
-
-                    }
-                    else{
+                if(ant!=temporal){
+                    if((ant!=tipo_Identifier)|(temporal!=tipo_Identifier)){
                         retorno=tipoError;
+                        System.out.println("Error en la declaracion del if, estos tipos no se pueden igualar");
                         break;
                     }
-                }
-                else if(comparisonExpresion==1){
-                    if(temporal==1){
-
-                    }
                     else{
-                        retorno=tipoError;
-                        break;
+                        ant=temporal;
+                        retorno=temporal;
                     }
                 }
                 else{
-                    if(existe(temporal,listaValidaComparisons)==false){
-                        retorno=tipoError;
-                        break;
-                    }
+                    ant=temporal;
+                    retorno=temporal;
                 }
             }
         }
@@ -443,6 +529,7 @@ public class checker extends MonkeyParserBaseVisitor{
                 retorno=temporal;
             }
         }
+        System.out.println(retorno);
         return retorno;
     }
     @Override
@@ -682,53 +769,61 @@ public class checker extends MonkeyParserBaseVisitor{
         int retorno=(Integer)visit(ctx.expression());
         return retorno;
     }
-
+    boolean banderaIfActivate=false;
     @Override
     public Object visitIfExpression_monkey(MonkeyParser.IfExpression_monkeyContext ctx) {
         int retorna=tipoError;
+        banderaIfActivate=true;
         int temporal=(Integer)visit(ctx.expression());
-        if(temporal!=tipoError){
-            if(temporal!=tipoError){
-                if(temporal==1 | temporal==tipo_Identifier){
-                    if((Integer)visit(ctx.blockStatement(0))!=tipoError)
-                        if((Integer)visit(ctx.blockStatement(1))!=tipoError){
+        int block1=(Integer)visit(ctx.blockStatement(0));
+        int block2=(Integer)visit(ctx.blockStatement(1));
+            if(temporal!=tipoError && temporal!=tipo_NULL){
+                    if(banderaifoneexpression==true){
+                        banderaIfActivate=false;
+                        banderaifoneexpression=false;
+                        if(temporal!=tipo_Identifier && temporal!=tipo_Boolean){
+                            System.out.println("Error en la sentencia if de una sola expresion solo permite booleans y identifiers");
+                        }
+                    }
+                    if(block1!=tipoError && block1!=tipo_NULL){
+                        if(block2!=tipoError && block2!=tipo_NULL){
                             retorna=temporal;
                         }
                         else{
-
+                            retorna=temporal;
+                            System.out.println("No tiene else");
                         }
-                }
-                else{
-                    System.out.println("Error en la sentencia if solo se permiten boolean o identifiers");
-                }
+                    }
+                    else{
+                        retorna=tipoError;
+                        System.out.println("Error en el contenido del bloque de codigo del if");
+                    }
             }
             else{
-                if(ctx.blockStatement(0)!=null && ctx.blockStatement(1)!=null){
-                    if((Integer)visit(ctx.blockStatement(0))!=tipoError)
-                        if((Integer)visit(ctx.blockStatement(1))!=tipoError){
-                            retorna=temporal;
-                        }
-                        else{
-
-                        }
-                }
+                retorna=temporal;
             }
-
-        }
         return retorna;
     }
-
     @Override
     public Object visitBlockStatement_monkey(MonkeyParser.BlockStatement_monkeyContext ctx) {
         int retorna=tipoError;
         this.table.openScope();
-        for(MonkeyParser.StatementContext ele:ctx.statement())
-            if((Integer)visit(ele)!=tipoError)
-                retorna=(Integer)visit(ele);
-            else{
-                retorna=tipoError;
-                break;
+        int temporal=-1;
+        for(MonkeyParser.StatementContext ele:ctx.statement()){
+            temporal=(Integer)visit(ele);
+            if(temporal!=tipo_NULL){
+                if(temporal!=tipoError){
+                    retorna=temporal;
+                }
+                else{
+                    retorna=tipoError;
+                    break;
+                }
             }
+            else{
+
+            }
+        }
         this.table.closeScope();
         return retorna;
     }
