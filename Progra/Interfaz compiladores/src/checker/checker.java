@@ -28,6 +28,7 @@ public class checker extends MonkeyParserBaseVisitor{
     int contadorG=0;
     boolean statementIf=false;
     boolean banderaifoneexpression=false;
+    boolean banderaReturn=false;
     public checker(){
         this.tableFn=new SymbolTableFn();
         this.table=new SymbolTable();
@@ -54,7 +55,8 @@ public class checker extends MonkeyParserBaseVisitor{
             return tipo_NULL;
         }
         statementIf=false;
-        return  (Integer)visit(ctx.returnStatement());
+        int retorno=(Integer)visit(ctx.returnStatement());
+        return  retorno;
     }
     @Override
     public Object visitStatement_expressionStatement_monkey(MonkeyParser.Statement_expressionStatement_monkeyContext ctx) {
@@ -82,8 +84,14 @@ public class checker extends MonkeyParserBaseVisitor{
                 int retorno=(Integer)visit(ctx.expression());
                 int tipo=retorno;
                 if(ctx.expression().toStringTree().contains("fn(")||ctx.expression().toStringTree().contains("fn (")){
-                    this.tableFn.insertar(retorno,0,ctx.ID().getText(),0,ctx);
-                    this.tableFn.imprimir();
+                    if(banderaReturn==true){
+                        banderaReturn=false;
+                        this.tableFn.insertar(retorno,0,ctx.ID().getText(),0,ctx);
+                        this.tableFn.imprimir();
+                    }
+                    else{
+                        Interfaz.msjsError.add("Error,la funcion no tiene retorno");
+                    }
                 }
                 else if(retorno==tipoError){
                     Interfaz.msjsError.add("Error en la asignacion");
@@ -100,6 +108,7 @@ public class checker extends MonkeyParserBaseVisitor{
     @Override
     public Object visitReturnStatement_monkey(MonkeyParser.ReturnStatement_monkeyContext ctx) {
         int retorno=(Integer) visit(ctx.expression());
+        banderaReturn=true;
         return tipoNeutro;
     }
     @Override
