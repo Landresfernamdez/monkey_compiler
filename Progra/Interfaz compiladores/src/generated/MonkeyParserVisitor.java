@@ -374,4 +374,11 @@ public interface MonkeyParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBlockStatement_monkey(MonkeyParser.BlockStatement_monkeyContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code idAST}
+	 * labeled alternative in {@link MonkeyParser#identifier}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdAST(MonkeyParser.IdASTContext ctx);
 }

@@ -6,7 +6,7 @@ program: statement*#Program_monkey;
 statement  : LET letStatement#Statement_let_monkey
             | RETURN returnStatement#Statement_return_monkey
             | expressionStatement#Statement_expressionStatement_monkey;
-letStatement: ID EQUAL expression  (PCOMA| )#LetStatement_monkey;
+letStatement: identifier EQUAL expression  (PCOMA| )#LetStatement_monkey;
 returnStatement	: expression  (PCOMA| )#ReturnStatement_monkey;
 expressionStatement: expression  (PCOMA| )#ExpressionStatement_monkey;
 expression: additionExpression comparison#Expression_monkey;
@@ -54,3 +54,7 @@ moreExpressions: (COMA expression)* #MoreExpression_monkey;
 printExpression: PUTS PRI expression PRD#PrintExpression_monkey;
 ifExpression: IF expression blockStatement (ELSE blockStatement| )#IfExpression_monkey;
 blockStatement	: LI statement* LD#BlockStatement_monkey;
+identifier
+         locals [ParserRuleContext decl=null]
+                 : ID                                                    #idAST
+                 ;

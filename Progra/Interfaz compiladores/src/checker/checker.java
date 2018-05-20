@@ -68,12 +68,20 @@ public class checker extends MonkeyParserBaseVisitor{
         return retorno;
     }
     int temporaldentifiertype =0;
+
+    @Override
+    public Object visitIdAST(MonkeyParser.IdASTContext ctx) {
+        return ctx.ID();
+    }
     @Override
     public Object visitLetStatement_monkey(MonkeyParser.LetStatement_monkeyContext ctx) {
         temporaldentifiertype =0;
         int retorna=tipoError;
-        SymbolTable.Ident ta=this.table.buscar(ctx.ID().getText());
+        TerminalNode idToken=(TerminalNode)visit(ctx.identifier());
+        SymbolTable.Ident ta=this.table.buscar(idToken.getText());
         if(ta!=null){
+            //Se asigna el puntero a la declaracion
+            ctx.identifier().decl=ta.decl;
             int te=(Integer)visit(ctx.expression());
             if(ta.type!=te){
                 Interfaz.msjsError.add("Tipos incompatibles en la asignacion");
@@ -86,7 +94,7 @@ public class checker extends MonkeyParserBaseVisitor{
                 if(ctx.expression().toStringTree().contains("fn(")||ctx.expression().toStringTree().contains("fn (")){
                     if(banderaReturn==true){
                         banderaReturn=false;
-                        this.tableFn.insertar(retorno,0,ctx.ID().getText(),0,ctx);
+                        this.tableFn.insertar(retorno,0,idToken.getText(),0,ctx);
                         this.tableFn.imprimir();
                     }
                     else{
@@ -98,7 +106,7 @@ public class checker extends MonkeyParserBaseVisitor{
                 }
                 else {
                     retorna=retorno;
-                    this.table.insertar(ctx.ID().getText(),tipo,ctx);
+                    this.table.insertar(idToken.getText(),tipo,ctx);
                     this.table.imprimir();
                 }
             }
@@ -541,7 +549,6 @@ public class checker extends MonkeyParserBaseVisitor{
                 retorno=temporal;
             }
         }
-        System.out.println(retorno);
         return retorno;
     }
     @Override
@@ -736,11 +743,10 @@ public class checker extends MonkeyParserBaseVisitor{
     }
     int temporalExpresion=0;
     @Override
-    public Object visitExpressionListExpression_monkey(MonkeyParser.ExpressionListExpression_monkeyContext ctx) {
+    public Object visitExpressionListExpression_monkey(MonkeyParser.ExpressionListExpression_monkeyContext ctx){
         temporalExpresion=(Integer)visit(ctx.expression());
         int validacionExpression=(Integer)visit(ctx.moreExpressions());
         int retorna=tipoError;
-
         if(ctx.expression()!=null && validacionExpression==tipo_NULL){
             if(temporalExpresion!=tipoError){
                 retorna=tipo_ArrayLiteral;
@@ -753,7 +759,6 @@ public class checker extends MonkeyParserBaseVisitor{
         }
         return retorna;
     }
-
     @Override
     public Object visitExpressionListVacio_monkey(MonkeyParser.ExpressionListVacio_monkeyContext ctx) {
         //Ni idea de que poner
