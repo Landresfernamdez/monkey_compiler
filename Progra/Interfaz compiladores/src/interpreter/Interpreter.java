@@ -5,8 +5,30 @@ import generated.MonkeyParserBaseVisitor;
 import interfaz.Interfaz;
 
 public class Interpreter extends MonkeyParserBaseVisitor {
+    DataStorage almacen =new DataStorage();
+    EvaluationStack pila=new EvaluationStack();
+    int indicePila=0;
+    int indiceAlmacen=0;
+
+    int tipo_Boolean_true=1;
+    int tipo_Boolean_false=111;
+    int tipo_Entero=2;
+    int tipo_String=3;
+    int tipo_Identifier=4;
+    int tipo_ArrayLiteral=5;
+    int tipo_ArrayFunctions=6;
+    int tipo_NULL=13;
+    int tipoError=-1;
+    int tipo_HashLiteral=12;
+    int tipoFnLEN=7;
+    int tipoFnFIRST=8;
+    int tipoFnLAST=9;
+    int tipoFnREST=10;
+    int tipoFnPUSH=11;
+    int tipoNeutro=0;
     @Override
-    public Object visitProgram_monkey(MonkeyParser.Program_monkeyContext ctx) {
+    public Object visitProgram_monkey(MonkeyParser.Program_monkeyContext ctx){
+
         for(MonkeyParser.StatementContext ele:ctx.statement())
             visit(ele);
         return null;
@@ -33,6 +55,23 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitLetStatement_monkey(MonkeyParser.LetStatement_monkeyContext ctx) {
         visit(ctx.expression());
+        //sacar de la pila
+        ElementoStack el = this.pila.popValue();
+        this.almacen.addData(((MonkeyParser.IdASTContext)ctx.identifier()).ID().getText(),el.getValor(),el.getTipo(),ctx.storageIndex);
+        /*if(ctx.identifier().decl!=null){
+            //Verificar si el elemento existe en el almacen de datos
+            System.out.print(ctx.identifier().getText());
+            if(this.almacen.existe(ctx.identifier().getText())){
+
+            }
+            else{
+                System.out.print("Entro a segunda prueba");
+                ElementoStack element= (ElementoStack) this.pila.popValue();
+                this.almacen.addData(ctx.identifier().getText(),element.valor,element.tipo,this.indiceAlmacen);
+                this.almacen.toString();
+            }
+        }*/
+        this.almacen.printDataStorage();
         return null;
     }
     @Override
@@ -98,8 +137,10 @@ public class Interpreter extends MonkeyParserBaseVisitor {
 
     @Override
     public Object visitAdittionFactorSUMARESTA_monkey(MonkeyParser.AdittionFactorSUMARESTA_monkeyContext ctx) {
-        visit(ctx.multiplicationExpression(0));
-        for(int i=1; i<ctx.multiplicationExpression().size();i++) {
+        for(int i=0; i<ctx.multiplicationExpression().size();i++) {
+            //validar si es suma o resta dependiendo del size de la lista de token suma o resta
+
+            visit(ctx.multiplicationExpression(0));//esta mal
             visit(ctx.multiplicationExpression(i));
         }
         return null;
@@ -112,8 +153,8 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     }
     @Override
     public Object visitMultiplicationFactorMULDIV_monkey(MonkeyParser.MultiplicationFactorMULDIV_monkeyContext ctx) {
-        visit(ctx.elementExpression(0));
         for(int i=1; i<ctx.elementExpression().size();i++) {
+            visit(ctx.elementExpression(0));
             visit(ctx.elementExpression(i));
         }
         return null;
@@ -153,29 +194,35 @@ public class Interpreter extends MonkeyParserBaseVisitor {
 
     @Override
     public Object visitPEInteger_monkey(MonkeyParser.PEInteger_monkeyContext ctx) {
+        this.pila.pushValue(new ElementoStack(Integer.parseInt(ctx.getText()),tipo_Entero));
+
         return null;
     }
 
     @Override
-    public Object visitPEString_monkey(MonkeyParser.PEString_monkeyContext ctx) {
+    public Object visitPEString_monkey(MonkeyParser.PEString_monkeyContext ctx){
+        this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_String));
         return null;
     }
 
     @Override
     public Object visitPEIdentifier_monkey(MonkeyParser.PEIdentifier_monkeyContext ctx) {
+        visit(ctx.identifier());
+
         return null;
     }
 
     @Override
     public Object visitPETrue_monkey(MonkeyParser.PETrue_monkeyContext ctx) {
+        this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_Boolean_true));
         return null;
     }
 
     @Override
     public Object visitPEFalse_monkey(MonkeyParser.PEFalse_monkeyContext ctx) {
+        this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_Boolean_false));
         return null;
     }
-
     @Override
     public Object visitPEExpression_monkey(MonkeyParser.PEExpression_monkeyContext ctx) {
         visit(ctx.expression());
@@ -185,24 +232,26 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitPEArrayLiteral_monkey(MonkeyParser.PEArrayLiteral_monkeyContext ctx) {
         visit(ctx.arrayLiteral());
+        this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_ArrayLiteral));
         return null;
     }
-
     @Override
     public Object visitPEArrayFunctions_monkey(MonkeyParser.PEArrayFunctions_monkeyContext ctx) {
         visit(ctx.arrayFunctions());
         visit(ctx.expressionList());
+        this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_ArrayFunctions));
         return null;
     }
-
     @Override
     public Object visitPEFunctionsLiteral_monkey(MonkeyParser.PEFunctionsLiteral_monkeyContext ctx) {
         visit(ctx.functionLiteral());
+        this.pila.pushValue(new ElementoStack(ctx.getText(),0));
         return null;
     }
     @Override
     public Object visitPEHashLiteral_monkey(MonkeyParser.PEHashLiteral_monkeyContext ctx) {
         visit(ctx.hashLiteral());
+        this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_HashLiteral));
         return null;
     }
 
@@ -216,7 +265,6 @@ public class Interpreter extends MonkeyParserBaseVisitor {
         visit(ctx.ifExpression());
         return null;
     }
-
     @Override
     public Object visitArrayFunctionsLEN_monkey(MonkeyParser.ArrayFunctionsLEN_monkeyContext ctx) {
         return null;
@@ -331,6 +379,17 @@ public class Interpreter extends MonkeyParserBaseVisitor {
 
     @Override
     public Object visitIdAST(MonkeyParser.IdASTContext ctx) {
+        System.out.println("Entro a la prueba");
+        int identifierIndex = 0;
+        if(this.indicePila == 0)
+            identifierIndex = ((MonkeyParser.LetStatementContext) ctx.decl).storageIndex;
+        else{
+            identifierIndex = this.almacen.devuelve(ctx.ID().getText()).getIndex();
+        }
+        ElementoDataStorage element = this.almacen.getData(identifierIndex);
+        if (element.getTipo() != this.tipo_ArrayFunctions){
+            this.pila.pushValue(new ElementoStack(element.getValue(),element.getTipo()));
+        }
         return null;
     }
 }

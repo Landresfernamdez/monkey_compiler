@@ -6,7 +6,8 @@ program: statement*#Program_monkey;
 statement  : LET letStatement#Statement_let_monkey
             | RETURN returnStatement#Statement_return_monkey
             | expressionStatement#Statement_expressionStatement_monkey;
-letStatement: identifier EQUAL expression  (PCOMA| )#LetStatement_monkey;
+letStatement locals [int storageIndex=0]:
+identifier EQUAL expression  (PCOMA| )#LetStatement_monkey;
 returnStatement	: expression  (PCOMA| )#ReturnStatement_monkey;
 expressionStatement: expression  (PCOMA| )#ExpressionStatement_monkey;
 expression: additionExpression comparison#Expression_monkey;
@@ -26,7 +27,7 @@ elementAccess: PCI expression PCD #ElementAcces_monkey;
 callExpression: PRI expressionList PRD#CallExpression_monkey;
 primitiveExpression: INTEGER#PEInteger_monkey
                     |STRING#PEString_monkey
-                    |ID#PEIdentifier_monkey
+                    |identifier#PEIdentifier_monkey
                     |TRUE#PETrue_monkey
                     |FALSE#PEFalse_monkey
                     |PRI expression PRD#PEExpression_monkey

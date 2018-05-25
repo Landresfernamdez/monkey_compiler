@@ -5,6 +5,7 @@
  */
 package interfaz;
 import generated.Scanner;
+import interpreter.Interpreter;
 import linea.TextLineNumber;
 import clasesCompiladores.Editor;
 import listeners.ThrowingErrorListener;
@@ -276,6 +277,8 @@ public class Interfaz extends javax.swing.JFrame {
                 tree =parser.program();
                 checker c=new checker();
                 c.visit(tree);
+                Interpreter in=new Interpreter();
+                in.visit(tree);
                 for (String i : this.msjsError){
                     if(jTextArea1.getText().contains(i)){
 

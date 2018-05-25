@@ -279,6 +279,7 @@ public class MonkeyParser extends Parser {
 	}
 
 	public static class LetStatementContext extends ParserRuleContext {
+		public int storageIndex = 0;
 		public LetStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -287,6 +288,7 @@ public class MonkeyParser extends Parser {
 		public LetStatementContext() { }
 		public void copyFrom(LetStatementContext ctx) {
 			super.copyFrom(ctx);
+			this.storageIndex = ctx.storageIndex;
 		}
 	}
 	public static class LetStatement_monkeyContext extends LetStatementContext {
@@ -1385,7 +1387,9 @@ public class MonkeyParser extends Parser {
 		}
 	}
 	public static class PEIdentifier_monkeyContext extends PrimitiveExpressionContext {
-		public TerminalNode ID() { return getToken(MonkeyParser.ID, 0); }
+		public IdentifierContext identifier() {
+			return getRuleContext(IdentifierContext.class,0);
+		}
 		public PEIdentifier_monkeyContext(PrimitiveExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
@@ -1440,7 +1444,7 @@ public class MonkeyParser extends Parser {
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(167);
-				match(ID);
+				identifier();
 				}
 				break;
 			case TRUE:
@@ -2546,7 +2550,7 @@ public class MonkeyParser extends Parser {
 		"\3\2\2\2\u009f\u00a0\7\33\2\2\u00a0\u00a1\5\f\7\2\u00a1\u00a2\7\34\2\2"+
 		"\u00a2\33\3\2\2\2\u00a3\u00a4\7\35\2\2\u00a4\u00a5\5\60\31\2\u00a5\u00a6"+
 		"\7\36\2\2\u00a6\35\3\2\2\2\u00a7\u00bb\7%\2\2\u00a8\u00bb\7&\2\2\u00a9"+
-		"\u00bb\7$\2\2\u00aa\u00bb\7\5\2\2\u00ab\u00bb\7\6\2\2\u00ac\u00ad\7\35"+
+		"\u00bb\5:\36\2\u00aa\u00bb\7\5\2\2\u00ab\u00bb\7\6\2\2\u00ac\u00ad\7\35"+
 		"\2\2\u00ad\u00ae\5\f\7\2\u00ae\u00af\7\36\2\2\u00af\u00bb\3\2\2\2\u00b0"+
 		"\u00bb\5\"\22\2\u00b1\u00b2\5 \21\2\u00b2\u00b3\7\35\2\2\u00b3\u00b4\5"+
 		"\60\31\2\u00b4\u00b5\7\36\2\2\u00b5\u00bb\3\2\2\2\u00b6\u00bb\5$\23\2"+
