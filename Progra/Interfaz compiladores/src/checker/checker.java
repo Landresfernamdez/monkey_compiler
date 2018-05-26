@@ -404,7 +404,6 @@ public class checker extends MonkeyParserBaseVisitor{
                 }
             }
             else{
-                Interfaz.msjsError.add("Este dato no puede realizar esta operación");
             }
         }else{
             return tipoError;
@@ -412,7 +411,22 @@ public class checker extends MonkeyParserBaseVisitor{
         return retorno;
     }
     @Override
-    public Object visitAdittionFactorSUMARESTA_monkey(MonkeyParser.AdittionFactorSUMARESTA_monkeyContext ctx) {
+    public Object visitAdittionFactorSUMA_monkey(MonkeyParser.AdittionFactorSUMA_monkeyContext ctx) {
+        if(ctx.multiplicationExpression().size()==0){
+            return tipo_NULL;
+        }
+        int retorno = (Integer)visit(ctx.multiplicationExpression(0));
+        int comprueba=0;
+        for(int i=1; i<ctx.multiplicationExpression().size();i++) {
+            comprueba = (Integer) visit(ctx.multiplicationExpression(i));
+            if (comprueba!=retorno){
+                Interfaz.msjsError.add("Ocurrio un error de tipos");
+                return tipoError;
+            }
+        }
+        return retorno;
+    }@Override
+    public Object visitAdittionFactorRESTA_monkey(MonkeyParser.AdittionFactorRESTA_monkeyContext ctx) {
         if(ctx.multiplicationExpression().size()==0){
             return tipo_NULL;
         }
@@ -457,7 +471,6 @@ public class checker extends MonkeyParserBaseVisitor{
                         }
                     }
                     else{
-                        Interfaz.msjsError.add("Este dato no puede realizar esta operación");
                     }
                 }
                 else{
@@ -468,7 +481,22 @@ public class checker extends MonkeyParserBaseVisitor{
         return retorno;
     }
     @Override
-    public Object visitMultiplicationFactorMULDIV_monkey(MonkeyParser.MultiplicationFactorMULDIV_monkeyContext ctx) {
+    public Object visitMultiplicationFactorMUL_monkey(MonkeyParser.MultiplicationFactorMUL_monkeyContext ctx) {
+        if(ctx.elementExpression().size()==0){
+            return tipo_NULL;
+        }
+        int retorno=(Integer) visit(ctx.elementExpression(0));
+        int comprueba=tipoError;
+        for(int i=1; i<ctx.elementExpression().size();i++) {
+            comprueba=(Integer)visit(ctx.elementExpression(i));
+            if(comprueba!=retorno) {
+                Interfaz.msjsError.add("Ocurrio un error de tipos en multiplicacion o division");
+                return tipoError;
+            }
+        }
+        return retorno;
+    }@Override
+    public Object visitMultiplicationFactorDIV_monkey(MonkeyParser.MultiplicationFactorDIV_monkeyContext ctx) {
         if(ctx.elementExpression().size()==0){
             return tipo_NULL;
         }

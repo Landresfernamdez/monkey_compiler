@@ -109,12 +109,19 @@ public interface MonkeyParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAdittionExpression_monkey(MonkeyParser.AdittionExpression_monkeyContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code AdittionFactorSUMARESTA_monkey}
+	 * Visit a parse tree produced by the {@code AdittionFactorSUMA_monkey}
 	 * labeled alternative in {@link MonkeyParser#additionFactor}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAdittionFactorSUMARESTA_monkey(MonkeyParser.AdittionFactorSUMARESTA_monkeyContext ctx);
+	T visitAdittionFactorSUMA_monkey(MonkeyParser.AdittionFactorSUMA_monkeyContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code AdittionFactorRESTA_monkey}
+	 * labeled alternative in {@link MonkeyParser#additionFactor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAdittionFactorRESTA_monkey(MonkeyParser.AdittionFactorRESTA_monkeyContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MultiplicationExpression_monkey}
 	 * labeled alternative in {@link MonkeyParser#multiplicationExpression}.
@@ -123,12 +130,19 @@ public interface MonkeyParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMultiplicationExpression_monkey(MonkeyParser.MultiplicationExpression_monkeyContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code MultiplicationFactorMULDIV_monkey}
+	 * Visit a parse tree produced by the {@code MultiplicationFactorMUL_monkey}
 	 * labeled alternative in {@link MonkeyParser#multiplicationFactor}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMultiplicationFactorMULDIV_monkey(MonkeyParser.MultiplicationFactorMULDIV_monkeyContext ctx);
+	T visitMultiplicationFactorMUL_monkey(MonkeyParser.MultiplicationFactorMUL_monkeyContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MultiplicationFactorDIV_monkey}
+	 * labeled alternative in {@link MonkeyParser#multiplicationFactor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiplicationFactorDIV_monkey(MonkeyParser.MultiplicationFactorDIV_monkeyContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ElementExprssionPEElementAccess_monkey}
 	 * labeled alternative in {@link MonkeyParser#elementExpression}.
