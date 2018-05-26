@@ -26,13 +26,8 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     int tipoFnREST=10;
     int tipoFnPUSH=11;
     int tipoNeutro=0;
-    boolean suma=false;
-    boolean resta=false;
-    boolean multiplicacion=false;
-    boolean division=false;
     @Override
     public Object visitProgram_monkey(MonkeyParser.Program_monkeyContext ctx){
-
         for(MonkeyParser.StatementContext ele:ctx.statement())
             visit(ele);
         return null;
@@ -56,26 +51,28 @@ public class Interpreter extends MonkeyParserBaseVisitor {
         return null;
 
     }
+
+    public boolean existe(String name){
+        for(int x=0;x<this.almacen.getData().size();x++){
+            if(this.almacen.getData().get(x).getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public Object visitLetStatement_monkey(MonkeyParser.LetStatement_monkeyContext ctx) {
         visit(ctx.expression());
         //sacar de la pila
         ElementoStack el = this.pila.popValue();
-        this.almacen.addData(((MonkeyParser.IdASTContext)ctx.identifier()).ID().getText(),el.getValor(),el.getTipo(),ctx.storageIndex);
-        /*if(ctx.identifier().decl!=null){
-            //Verificar si el elemento existe en el almacen de datos
-            System.out.print(ctx.identifier().getText());
-            if(this.almacen.existe(ctx.identifier().getText())){
-
-            }
-            else{
-                System.out.print("Entro a segunda prueba");
-                ElementoStack element= (ElementoStack) this.pila.popValue();
-                this.almacen.addData(ctx.identifier().getText(),element.valor,element.tipo,this.indiceAlmacen);
-                this.almacen.toString();
-            }
-        }*/
-        this.almacen.printDataStorage();
+        boolean existe=existe(((MonkeyParser.IdASTContext)ctx.identifier()).ID().getText());
+        if(existe==true){
+            this.almacen.modifyData(((MonkeyParser.IdASTContext)ctx.identifier()).ID().getText(),el.getValor(),el.getTipo());
+            this.almacen.printDataStorage();
+        }else{
+            this.almacen.addData(((MonkeyParser.IdASTContext)ctx.identifier()).ID().getText(),el.getValor(),el.getTipo(),ctx.storageIndex);
+            this.almacen.printDataStorage();
+        }
         return null;
     }
     @Override

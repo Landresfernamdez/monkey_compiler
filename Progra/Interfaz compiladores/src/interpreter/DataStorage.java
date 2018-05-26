@@ -17,22 +17,21 @@ public class DataStorage {
         this.data.add(v);
         this.ContadorDataStorage++;
     }
+    public void modifyData(String nombre, Object value,int tipo)
+    {
+        for(int x=0;x<this.data.size();x++){
+            if(this.data.get(x).getName().equals(nombre)){
+                this.data.get(x).setTipo(tipo);
+                this.data.get(x).setValue(value);
+            }
+        }
+    }
     public ElementoDataStorage getData(int index) {
         return this.data.get(index);
     }
     public ElementoDataStorage getData(String name) {
         //se debe buscar en la tabla pero por nombre
         return null;
-    }
-    public boolean existe(String name){
-        for(int x=0;x<this.data.size();x++){
-            if(this.data.get(x)!=null){
-                if(this.data.get(x).name==name){
-                    return true;
-                }
-            }
-        }
-        return false;
     }
     public ElementoDataStorage devuelve(String name){
         for(int x=0;x<this.data.size();x++){

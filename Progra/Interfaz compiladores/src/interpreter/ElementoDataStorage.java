@@ -16,7 +16,6 @@ public class ElementoDataStorage {
         this.tipo = tipo;
         this.nivel = nivel;
     }
-
     public String getName() {
         return name;
     }
