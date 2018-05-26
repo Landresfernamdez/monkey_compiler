@@ -138,18 +138,18 @@ public class Interpreter extends MonkeyParserBaseVisitor {
         visit(ctx.additionFactor());
         return null;
     }
-    private Integer OperarNumeros(Integer v1, Integer v2){
+    private Integer OperarNumeros(Integer v1, Integer v2,String operacion){
         Integer res=new Integer(0);
-        if (suma){
+        if (operacion=="+"){
             res = v1 + v2;
         }
-        else if (resta){
+        else if (operacion=="-"){
             res = v2 - v1;
         }
-        else if(multiplicacion){
+        else if(operacion=="*"){
             res=v1*v2;
         }
-        else if(division){
+        else if(operacion=="/"){
             res=v2/v1;
         }
         return res;
@@ -184,27 +184,21 @@ public class Interpreter extends MonkeyParserBaseVisitor {
                 visit(ctx.multiplicationExpression(i));
                 ElementoStack elemento1=this.pila.popValue();
                 ElementoStack elemento2=this.pila.popValue();
-                suma=true;
-                resta=false;
-                division=false;
-                multiplicacion=false;
-                if(suma){
-                    if(elemento1.getTipo()==tipo_String && elemento2.getTipo()==tipo_String){
+                if(elemento1.getTipo()==tipo_String && elemento2.getTipo()==tipo_String){
                         String resultado=Concatenar((String) elemento1.getValor(),(String)elemento2.getValor());
                         Object resulto=(Object)resultado;
                         System.out.println("Resultado="+resultado);
                         this.pila.pushValue(new ElementoStack(resulto,tipo_String));
-                    }
-                    else if((elemento1.getTipo()!=tipo_String && elemento2.getTipo()==tipo_String)|(elemento1.getTipo()==tipo_String && elemento2.getTipo()!=tipo_String)){
+                }
+                else if((elemento1.getTipo()!=tipo_String && elemento2.getTipo()==tipo_String)|(elemento1.getTipo()==tipo_String && elemento2.getTipo()!=tipo_String)){
                         Interfaz.msjsError.add("Error de tipos en la operacion, no se pueden sumar enteros con strings");
-                    }
-                    else{
-                        int resultado=OperarNumeros((Integer)elemento1.getValor(),(Integer)elemento2.getValor());
+                }
+                else{
+                        int resultado=OperarNumeros((Integer)elemento1.getValor(),(Integer)elemento2.getValor(),"+");
                         Object resulto=(Object)resultado;
                         System.out.println("Resultado="+resultado);
                         this.pila.pushValue(new ElementoStack(resulto,tipo_Entero));
                     }
-                }
         }
         return null;
     }
@@ -216,37 +210,16 @@ public class Interpreter extends MonkeyParserBaseVisitor {
             visit(ctx.multiplicationExpression(i));
             ElementoStack elemento1=this.pila.popValue();
             ElementoStack elemento2=this.pila.popValue();
-            suma=false;
-            resta=true;
-            division=false;
-            multiplicacion=false;
-            if(suma){
-                if(elemento1.getTipo()==tipo_String && elemento2.getTipo()==tipo_String){
-                    String resultado=Concatenar((String) elemento1.getValor(),(String)elemento2.getValor());
-                    Object resulto=(Object)resultado;
-                    System.out.println("Resultado="+resultado);
-                    this.pila.pushValue(new ElementoStack(resulto,tipo_String));
-                }
-                else if((elemento1.getTipo()!=tipo_String && elemento2.getTipo()==tipo_String)|(elemento1.getTipo()==tipo_String && elemento2.getTipo()!=tipo_String)){
+            if((elemento1.getTipo()!=tipo_String && elemento2.getTipo()==tipo_String)|(elemento1.getTipo()==tipo_String && elemento2.getTipo()!=tipo_String)){
                     Interfaz.msjsError.add("Error de tipos en la operacion, no se pueden sumar enteros con strings");
                 }
-                else{
-                    int resultado=OperarNumeros((Integer)elemento1.getValor(),(Integer)elemento2.getValor());
+            else{
+                    int resultado=OperarNumeros((Integer)elemento1.getValor(),(Integer)elemento2.getValor(),"-");
                     Object resulto=(Object)resultado;
                     System.out.println("Resultado="+resultado);
                     this.pila.pushValue(new ElementoStack(resulto,tipo_Entero));
                 }
-            }else{
-                 if((elemento1.getTipo()!=tipo_String && elemento2.getTipo()==tipo_String)|(elemento1.getTipo()==tipo_String && elemento2.getTipo()!=tipo_String)){
-                    Interfaz.msjsError.add("Error de tipos en la operacion, no se pueden sumar enteros con strings");
-                }
-                else{
-                    int resultado=OperarNumeros((Integer)elemento1.getValor(),(Integer)elemento2.getValor());
-                    Object resulto=(Object)resultado;
-                    System.out.println("Resultado="+resultado);
-                    this.pila.pushValue(new ElementoStack(resulto,tipo_Entero));
-                }
-            }
+
         }
         return null;
     }
@@ -264,37 +237,15 @@ public class Interpreter extends MonkeyParserBaseVisitor {
             visit(ctx.elementExpression(i));
             ElementoStack elemento1=this.pila.popValue();
             ElementoStack elemento2=this.pila.popValue();
-            suma=false;
-            resta=false;
-            division=false;
-            multiplicacion=true;
-            if(suma){
-                if(elemento1.getTipo()==tipo_String && elemento2.getTipo()==tipo_String){
-                    String resultado=Concatenar((String) elemento1.getValor(),(String)elemento2.getValor());
-                    Object resulto=(Object)resultado;
-                    System.out.println("Resultado="+resultado);
-                    this.pila.pushValue(new ElementoStack(resulto,tipo_String));
-                }
-                else if((elemento1.getTipo()!=tipo_String && elemento2.getTipo()==tipo_String)|(elemento1.getTipo()==tipo_String && elemento2.getTipo()!=tipo_String)){
-                    Interfaz.msjsError.add("Error de tipos en la operacion, no se pueden sumar enteros con strings");
-                }
-                else{
-                    int resultado=OperarNumeros((Integer)elemento1.getValor(),(Integer)elemento2.getValor());
-                    Object resulto=(Object)resultado;
-                    System.out.println("Resultado="+resultado);
-                    this.pila.pushValue(new ElementoStack(resulto,tipo_Entero));
-                }
-            }else{
                 if((elemento1.getTipo()!=tipo_String && elemento2.getTipo()==tipo_String)|(elemento1.getTipo()==tipo_String && elemento2.getTipo()!=tipo_String)){
                     Interfaz.msjsError.add("Error de tipos en la operacion, no se pueden sumar enteros con strings");
                 }
                 else{
-                    int resultado=OperarNumeros((Integer)elemento1.getValor(),(Integer)elemento2.getValor());
+                    int resultado=OperarNumeros((Integer)elemento1.getValor(),(Integer)elemento2.getValor(),"*");
                     Object resulto=(Object)resultado;
                     System.out.println("Resultado="+resultado);
                     this.pila.pushValue(new ElementoStack(resulto,tipo_Entero));
                 }
-            }
         }
         return null;
     }
@@ -306,37 +257,15 @@ public class Interpreter extends MonkeyParserBaseVisitor {
             visit(ctx.elementExpression(i));
             ElementoStack elemento1=this.pila.popValue();
             ElementoStack elemento2=this.pila.popValue();
-            suma=false;
-            resta=false;
-            division=true;
-            multiplicacion=false;
-            if(suma){
-                if(elemento1.getTipo()==tipo_String && elemento2.getTipo()==tipo_String){
-                    String resultado=Concatenar((String) elemento1.getValor(),(String)elemento2.getValor());
-                    Object resulto=(Object)resultado;
-                    System.out.println("Resultado="+resultado);
-                    this.pila.pushValue(new ElementoStack(resulto,tipo_String));
-                }
-                else if((elemento1.getTipo()!=tipo_String && elemento2.getTipo()==tipo_String)|(elemento1.getTipo()==tipo_String && elemento2.getTipo()!=tipo_String)){
+            if((elemento1.getTipo()!=tipo_String && elemento2.getTipo()==tipo_String)|(elemento1.getTipo()==tipo_String && elemento2.getTipo()!=tipo_String)){
                     Interfaz.msjsError.add("Error de tipos en la operacion, no se pueden sumar enteros con strings");
                 }
-                else{
-                    int resultado=OperarNumeros((Integer)elemento1.getValor(),(Integer)elemento2.getValor());
+            else{
+                    int resultado=OperarNumeros((Integer)elemento1.getValor(),(Integer)elemento2.getValor(),"/");
                     Object resulto=(Object)resultado;
                     System.out.println("Resultado="+resultado);
                     this.pila.pushValue(new ElementoStack(resulto,tipo_Entero));
                 }
-            }else{
-                if((elemento1.getTipo()!=tipo_String && elemento2.getTipo()==tipo_String)|(elemento1.getTipo()==tipo_String && elemento2.getTipo()!=tipo_String)){
-                    Interfaz.msjsError.add("Error de tipos en la operacion, no se pueden sumar enteros con strings");
-                }
-                else{
-                    int resultado=OperarNumeros((Integer)elemento1.getValor(),(Integer)elemento2.getValor());
-                    Object resulto=(Object)resultado;
-                    System.out.println("Resultado="+resultado);
-                    this.pila.pushValue(new ElementoStack(resulto,tipo_Entero));
-                }
-            }
         }
         return null;
     }
