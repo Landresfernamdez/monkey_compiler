@@ -64,14 +64,16 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     public Object visitLetStatement_monkey(MonkeyParser.LetStatement_monkeyContext ctx) {
         visit(ctx.expression());
         //sacar de la pila
-        ElementoStack el = this.pila.popValue();
-        boolean existe=existe(((MonkeyParser.IdASTContext)ctx.identifier()).ID().getText());
-        if(existe==true){
-            this.almacen.modifyData(((MonkeyParser.IdASTContext)ctx.identifier()).ID().getText(),el.getValor(),el.getTipo());
-            this.almacen.printDataStorage();
-        }else{
-            this.almacen.addData(((MonkeyParser.IdASTContext)ctx.identifier()).ID().getText(),el.getValor(),el.getTipo(),ctx.storageIndex);
-            this.almacen.printDataStorage();
+        if(this.pila.size()>0){
+            ElementoStack el = this.pila.popValue();
+            boolean existe=existe(((MonkeyParser.IdASTContext)ctx.identifier()).ID().getText());
+            if(existe==true){
+                this.almacen.modifyData(((MonkeyParser.IdASTContext)ctx.identifier()).ID().getText(),el.getValor(),el.getTipo());
+                this.almacen.printDataStorage();
+            }else{
+                this.almacen.addData(((MonkeyParser.IdASTContext)ctx.identifier()).ID().getText(),el.getValor(),el.getTipo(),this.almacen.getActualStorageIndex());
+                this.almacen.printDataStorage();
+            }
         }
         return null;
     }
@@ -170,7 +172,6 @@ public class Interpreter extends MonkeyParserBaseVisitor {
                 }
             }
         }
-
         return res;
     }
     @Override
@@ -260,7 +261,6 @@ public class Interpreter extends MonkeyParserBaseVisitor {
             else{
                     int resultado=OperarNumeros((Integer)elemento1.getValor(),(Integer)elemento2.getValor(),"/");
                     Object resulto=(Object)resultado;
-                    System.out.println("Resultado="+resultado);
                     this.pila.pushValue(new ElementoStack(resulto,tipo_Entero));
                 }
         }
@@ -301,7 +301,6 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitPEInteger_monkey(MonkeyParser.PEInteger_monkeyContext ctx) {
         this.pila.pushValue(new ElementoStack(Integer.parseInt(ctx.getText()),tipo_Entero));
-
         return null;
     }
 
@@ -314,7 +313,6 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitPEIdentifier_monkey(MonkeyParser.PEIdentifier_monkeyContext ctx) {
         visit(ctx.identifier());
-
         return null;
     }
 
@@ -478,22 +476,19 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     public Object visitBlockStatement_monkey(MonkeyParser.BlockStatement_monkeyContext ctx) {
         for(MonkeyParser.StatementContext ele:ctx.statement()){
             visit(ele);
-
         }
         return null;
     }
 
     @Override
     public Object visitIdAST(MonkeyParser.IdASTContext ctx) {
-        System.out.println("Entro a la prueba");
-        int identifierIndex = 0;
-        if(this.indicePila == 0)
-            identifierIndex = ((MonkeyParser.LetStatementContext) ctx.decl).storageIndex;
-        else{
-            identifierIndex = this.almacen.devuelve(ctx.ID().getText()).getIndex();
+        String identifierIndex= ctx.ID().getText();
+        ElementoDataStorage elemento=this.almacen.getData(identifierIndex);
+        if(elemento.getName().equals("null") && elemento.getValue().equals(-1)){
+            Interfaz.msjsError.add("Error, la variable "+identifierIndex+ " no existe");
         }
-        ElementoDataStorage element = this.almacen.getData(identifierIndex);
-        if (element.getTipo() != this.tipo_ArrayFunctions){
+        else{
+            ElementoDataStorage element = this.almacen.getData(identifierIndex);
             this.pila.pushValue(new ElementoStack(element.getValue(),element.getTipo()));
         }
         return null;

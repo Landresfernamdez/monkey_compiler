@@ -30,8 +30,13 @@ public class DataStorage {
         return this.data.get(index);
     }
     public ElementoDataStorage getData(String name) {
-        //se debe buscar en la tabla pero por nombre
-        return null;
+        for(int x=0;x<this.data.size();x++){
+            if(this.data.get(x).getName().equals(name)){
+                return this.data.get(x);
+            }
+        }
+        ElementoDataStorage e=new ElementoDataStorage("null",-1,-1,-1,-1);
+        return e;
     }
     public ElementoDataStorage devuelve(String name){
         for(int x=0;x<this.data.size();x++){

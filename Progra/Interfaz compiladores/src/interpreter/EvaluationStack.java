@@ -12,7 +12,9 @@ public class EvaluationStack {
     public void pushValue(ElementoStack elemento){
         this.evalStack.push(elemento);
     }
-
+    public int size(){
+        return this.evalStack.size();
+    }
     public ElementoStack popValue(){
         return this.evalStack.pop();
     }
