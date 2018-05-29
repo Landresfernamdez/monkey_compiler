@@ -9,7 +9,7 @@ public class ElementoDataStorage {
         int tipo;
         int nivel;
 
-    public ElementoDataStorage(String name, Object value, int index, int tipo, int nivel) {
+    public ElementoDataStorage(String name, Object value, int index, int tipo, int nivel){
         this.name = name;
         this.value = value;
         this.index = index;

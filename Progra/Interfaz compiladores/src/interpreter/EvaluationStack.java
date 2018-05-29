@@ -8,7 +8,6 @@ public class EvaluationStack {
     public EvaluationStack(){
         this.evalStack= new Stack<ElementoStack>();
     }
-
     public void pushValue(ElementoStack elemento){
         this.evalStack.push(elemento);
     }

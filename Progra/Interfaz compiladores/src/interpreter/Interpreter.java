@@ -287,11 +287,8 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     public Object visitElementExprssionPEElementAccess_monkey(MonkeyParser.ElementExprssionPEElementAccess_monkeyContext ctx) {
         visit(ctx.primitiveExpression());
         if(existe(ctx.primitiveExpression().getText())){
-            System.out.println("No mames");
             String elemento= (String) visit(ctx.elementAccess());
-            System.out.println("Prueba:"+this.almacen.devuelve(ctx.primitiveExpression().getText()).getTipo());
             if(this.almacen.devuelve(ctx.primitiveExpression().getText()).getTipo()==tipo_ArrayLiteral){
-                System.out.println("Entro a la prueba");
                 String variable=ctx.primitiveExpression().getText();
                 ElementoStack elementoPila=this.pila.popValue();
                 Integer indiceLista= (Integer) elementoPila.getValor();
@@ -335,13 +332,11 @@ public class Interpreter extends MonkeyParserBaseVisitor {
         this.pila.pushValue(new ElementoStack(Integer.parseInt(ctx.getText()),tipo_Entero));
         return null;
     }
-
     @Override
     public Object visitPEString_monkey(MonkeyParser.PEString_monkeyContext ctx){
         this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_String));
         return null;
     }
-
     @Override
     public Object visitPEIdentifier_monkey(MonkeyParser.PEIdentifier_monkeyContext ctx) {
         visit(ctx.identifier());
@@ -350,13 +345,13 @@ public class Interpreter extends MonkeyParserBaseVisitor {
 
     @Override
     public Object visitPETrue_monkey(MonkeyParser.PETrue_monkeyContext ctx) {
-        this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_Boolean_true));
+        this.pila.pushValue(new ElementoStack(true,tipo_Boolean_true));
         return null;
     }
 
     @Override
     public Object visitPEFalse_monkey(MonkeyParser.PEFalse_monkeyContext ctx) {
-        this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_Boolean_false));
+        this.pila.pushValue(new ElementoStack(false,tipo_Boolean_false));
         return null;
     }
     @Override
@@ -367,7 +362,7 @@ public class Interpreter extends MonkeyParserBaseVisitor {
 
     @Override
     public Object visitPEArrayLiteral_monkey(MonkeyParser.PEArrayLiteral_monkeyContext ctx) {
-        this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_ArrayLiteral));
+       // this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_ArrayLiteral));
         visit(ctx.arrayLiteral());
         return null;
     }
@@ -375,19 +370,19 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     public Object visitPEArrayFunctions_monkey(MonkeyParser.PEArrayFunctions_monkeyContext ctx) {
         visit(ctx.arrayFunctions());
         visit(ctx.expressionList());
-        this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_ArrayFunctions));
+       // this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_ArrayFunctions));
         return null;
     }
     @Override
     public Object visitPEFunctionsLiteral_monkey(MonkeyParser.PEFunctionsLiteral_monkeyContext ctx) {
         visit(ctx.functionLiteral());
-        this.pila.pushValue(new ElementoStack(ctx.getText(),0));
+        //this.pila.pushValue(new ElementoStack(ctx.getText(),0));
         return null;
     }
     @Override
     public Object visitPEHashLiteral_monkey(MonkeyParser.PEHashLiteral_monkeyContext ctx) {
         visit(ctx.hashLiteral());
-        this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_HashLiteral));
+        //this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_HashLiteral));
         return null;
     }
 
@@ -464,26 +459,8 @@ public class Interpreter extends MonkeyParserBaseVisitor {
 
     @Override
     public Object visitMoreHashContet_monkey(MonkeyParser.MoreHashContet_monkeyContext ctx) {
-        if(ctx.hashContent().size()==0){
-            visit(ctx.hashContent(0));
-            ElementoStack valor=this.pila.popValue();
-            ElementoStack clave=this.pila.popValue();
-            if(clave.getTipo()==tipo_String || clave.getTipo()==tipo_Entero){
-                Data data=new Data(clave,valor);
-                LinkedList<Data> lista=new LinkedList<>();
-                lista.add(data);
-                JSON json=new JSON(lista);
-                ElementoStack elemento=new ElementoStack(json,tipo_HashLiteral);
-                this.pila.pushValue(elemento);
-            }
-            else{
-                Interfaz.msjsError.add("La clave del hashLiteral solo puede ser entero o string");
-            }
-        }
-        else{
-            LinkedList<Data> lista=new LinkedList<>();
-            for(int x=0;x<ctx.hashContent().size();x++){
-                visit(ctx.hashContent(x));
+            LinkedList<Data> lista=new LinkedList<Data>();
+            if(this.pila.size()>0){
                 ElementoStack valor=this.pila.popValue();
                 ElementoStack clave=this.pila.popValue();
                 if(clave.getTipo()==tipo_String || clave.getTipo()==tipo_Entero){
@@ -493,11 +470,30 @@ public class Interpreter extends MonkeyParserBaseVisitor {
                 else{
                     Interfaz.msjsError.add("La clave del hashLiteral solo puede ser entero o string");
                 }
+                if(ctx.hashContent().size()==0){
+                    JSON json=new JSON(lista);
+                    ElementoStack elemento=new ElementoStack(json,tipo_HashLiteral);
+                    this.pila.pushValue(elemento);
+                }
             }
-            JSON json=new JSON(lista);
-            ElementoStack elemento=new ElementoStack(json,tipo_HashLiteral);
-            this.pila.pushValue(elemento);
-        }
+            if(ctx.hashContent().size()>0){
+                for(int x=0;x<ctx.hashContent().size();x++){
+                    visit(ctx.hashContent(x));
+                    ElementoStack valor=this.pila.popValue();
+                    ElementoStack clave=this.pila.popValue();
+                    if(clave.getTipo()==tipo_String || clave.getTipo()==tipo_Entero){
+                        Data data=new Data(clave,valor);
+                        lista.add(data);
+                    }
+                    else{
+                        Interfaz.msjsError.add("La clave del hashLiteral solo puede ser entero o string");
+                    }
+                }
+                JSON json=new JSON(lista);
+                ElementoStack elemento=new ElementoStack(json,tipo_HashLiteral);
+                this.pila.pushValue(elemento);
+            }
+
         return null;
     }
 
@@ -516,12 +512,11 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitMoreExpression_monkey(MonkeyParser.MoreExpression_monkeyContext ctx) {
         LinkedList<Object> listaElementos=new LinkedList<>();
-        if(ctx.expression().size()==1){
-            visit(ctx.expression(0));
+        if(this.pila.size()>0){
+            System.out.println("Prueba de pila="+this.pila.size());
             listaElementos.add(this.pila.popValue());
-            this.pila.pushValue(new ElementoStack(listaElementos,tipo_ArrayLiteral));
         }
-        else if(ctx.expression().size()>0){
+        if(ctx.expression().size()>0){
             visit(ctx.expression(0));
             listaElementos.add(this.pila.popValue());
             for(int i=1; i<ctx.expression().size();i++) {
@@ -529,6 +524,7 @@ public class Interpreter extends MonkeyParserBaseVisitor {
                 listaElementos.add(this.pila.popValue());
             }
             this.pila.pushValue(new ElementoStack(listaElementos,tipo_ArrayLiteral));
+
         }
         return null;
     }

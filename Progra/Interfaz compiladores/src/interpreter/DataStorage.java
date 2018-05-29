@@ -71,13 +71,60 @@ public class DataStorage {
         System.out.println("****** ESTADO DE DATA STORAGE ******\n");
         for (int i = 0; i < this.data.size(); i++) {
             ElementoDataStorage item = this.data.get(i);
-            System.out.println(
-                    "Name: " + item.getName()+" - "+
-                            "Value: " + item.getValue()+" - "+
-                            "Type: " + item.getTipo()+" - "+
-                            "Index: " + item.getIndex()+" - "+
-                            "Level: " + item.getNivel()
-            );
+            if(item.getTipo()==5){
+                String todo=
+                        "Name: " + item.getName()+" - "+
+                                "Type: " + item.getTipo()+" - "+
+                                "Index: " + item.getIndex()+" - "+
+                                "Level: " + item.getNivel()
+                ;
+                LinkedList<ElementoStack> lista= (LinkedList<ElementoStack>) item.getValue();
+                String listaConcatena="[";
+                for(int j=0;j<lista.size();j++){
+                    if(j!=lista.size()-1){
+                        listaConcatena=listaConcatena+lista.get(j).valor+",";
+                    }
+                    else{
+                        listaConcatena=listaConcatena+lista.get(j).valor+"]";
+                    }
+                }
+                todo=todo+"-"+"Valor:"+listaConcatena;
+                System.out.println(todo);
+            }
+            else if(item.getTipo()==12){
+                String todo=
+                        "Name: " + item.getName()+" - "+
+                                "Type: " + item.getTipo()+" - "+
+                                "Index: " + item.getIndex()+" - "+
+                                "Level: " + item.getNivel()
+                        ;
+                JSON json= (JSON) item.getValue();
+                LinkedList<Data> lista= json.getValores();
+                String listaConcatena="{";
+                for(int j=0;j<lista.size();j++){
+                    if(j!=lista.size()-1){
+                        ElementoStack clave= (ElementoStack) lista.get(j).getClave();
+                        ElementoStack valor=(ElementoStack) lista.get(j).getValor();
+                        listaConcatena=listaConcatena+clave.getValor()+":"+valor.getValor()+",";
+                    }
+                    else{
+                        ElementoStack clave= (ElementoStack) lista.get(j).getClave();
+                        ElementoStack valor=(ElementoStack) lista.get(j).getValor();
+                        listaConcatena=listaConcatena+clave.getValor()+":"+valor.getValor()+"}";
+                    }
+                }
+                todo=todo+"-"+"Valor:"+listaConcatena;
+                System.out.println(todo);
+            }
+            else{
+                System.out.println(
+                        "Name: " + item.getName()+" - "+
+                                "Value: " + item.getValue()+" - "+
+                                "Type: " + item.getTipo()+" - "+
+                                "Index: " + item.getIndex()+" - "+
+                                "Level: " + item.getNivel()
+                );
+            }
         }
     }
     public int getActualStorageIndex(){
