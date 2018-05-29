@@ -6,3 +6,6 @@ let y=z;
 //Prueba de operaciones
 let a="casa"+7;
 let a=4+6*5;
+//Prueba de element access
+let a=[1,2,3,4];
+let x=a[2];

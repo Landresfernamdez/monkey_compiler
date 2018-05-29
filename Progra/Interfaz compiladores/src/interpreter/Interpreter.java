@@ -4,6 +4,8 @@ import generated.MonkeyParser;
 import generated.MonkeyParserBaseVisitor;
 import interfaz.Interfaz;
 
+import java.util.LinkedList;
+
 public class Interpreter extends MonkeyParserBaseVisitor {
     DataStorage almacen =new DataStorage();
     EvaluationStack pila=new EvaluationStack();
@@ -26,6 +28,7 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     int tipoFnREST=10;
     int tipoFnPUSH=11;
     int tipoNeutro=0;
+
     @Override
     public Object visitProgram_monkey(MonkeyParser.Program_monkeyContext ctx){
         for(MonkeyParser.StatementContext ele:ctx.statement())
@@ -266,10 +269,39 @@ public class Interpreter extends MonkeyParserBaseVisitor {
         }
         return null;
     }
+    public ElementoStack devuelveElementoLista(String variable,int position){
+        for(int x=0;x<this.almacen.getData().size();x++){
+            if(this.almacen.getData(x).getName().equals(variable)){
+                ElementoDataStorage element=this.almacen.getData(x);
+                LinkedList<ElementoStack> lista= (LinkedList<ElementoStack>) element.getValue();
+                for(int y=0;y<lista.size();y++){
+                    if(y==position){
+                        return lista.get(x);
+                    }
+                }
+            }
+        }
+        return null;
+    }
     @Override
     public Object visitElementExprssionPEElementAccess_monkey(MonkeyParser.ElementExprssionPEElementAccess_monkeyContext ctx) {
         visit(ctx.primitiveExpression());
-        visit(ctx.elementAccess());
+        if(existe(ctx.primitiveExpression().getText())){
+            System.out.println("No mames");
+            String elemento= (String) visit(ctx.elementAccess());
+            System.out.println("Prueba:"+this.almacen.devuelve(ctx.primitiveExpression().getText()).getTipo());
+            if(this.almacen.devuelve(ctx.primitiveExpression().getText()).getTipo()==tipo_ArrayLiteral){
+                System.out.println("Entro a la prueba");
+                String variable=ctx.primitiveExpression().getText();
+                ElementoStack elementoPila=this.pila.popValue();
+                Integer indiceLista= (Integer) elementoPila.getValor();
+                this.pila.popValue();
+                this.pila.pushValue(new ElementoStack(devuelveElementoLista(variable,indiceLista),elementoPila.getTipo()));
+            }
+        }
+        else{
+            Interfaz.msjsError.add("No existe la variable "+ctx.primitiveExpression().getText());
+        }
         return null;
     }
 
@@ -289,7 +321,7 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitElementAcces_monkey(MonkeyParser.ElementAcces_monkeyContext ctx) {
         visit(ctx.expression());
-        return null;
+        return ctx.expression().getText();
     }
 
     @Override
@@ -335,8 +367,8 @@ public class Interpreter extends MonkeyParserBaseVisitor {
 
     @Override
     public Object visitPEArrayLiteral_monkey(MonkeyParser.PEArrayLiteral_monkeyContext ctx) {
-        visit(ctx.arrayLiteral());
         this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_ArrayLiteral));
+        visit(ctx.arrayLiteral());
         return null;
     }
     @Override
@@ -432,8 +464,40 @@ public class Interpreter extends MonkeyParserBaseVisitor {
 
     @Override
     public Object visitMoreHashContet_monkey(MonkeyParser.MoreHashContet_monkeyContext ctx) {
-        for(MonkeyParser.HashContentContext ele:ctx.hashContent())
-            visit(ele);
+        if(ctx.hashContent().size()==0){
+            visit(ctx.hashContent(0));
+            ElementoStack valor=this.pila.popValue();
+            ElementoStack clave=this.pila.popValue();
+            if(clave.getTipo()==tipo_String || clave.getTipo()==tipo_Entero){
+                Data data=new Data(clave,valor);
+                LinkedList<Data> lista=new LinkedList<>();
+                lista.add(data);
+                JSON json=new JSON(lista);
+                ElementoStack elemento=new ElementoStack(json,tipo_HashLiteral);
+                this.pila.pushValue(elemento);
+            }
+            else{
+                Interfaz.msjsError.add("La clave del hashLiteral solo puede ser entero o string");
+            }
+        }
+        else{
+            LinkedList<Data> lista=new LinkedList<>();
+            for(int x=0;x<ctx.hashContent().size();x++){
+                visit(ctx.hashContent(x));
+                ElementoStack valor=this.pila.popValue();
+                ElementoStack clave=this.pila.popValue();
+                if(clave.getTipo()==tipo_String || clave.getTipo()==tipo_Entero){
+                    Data data=new Data(clave,valor);
+                    lista.add(data);
+                }
+                else{
+                    Interfaz.msjsError.add("La clave del hashLiteral solo puede ser entero o string");
+                }
+            }
+            JSON json=new JSON(lista);
+            ElementoStack elemento=new ElementoStack(json,tipo_HashLiteral);
+            this.pila.pushValue(elemento);
+        }
         return null;
     }
 
@@ -451,9 +515,20 @@ public class Interpreter extends MonkeyParserBaseVisitor {
 
     @Override
     public Object visitMoreExpression_monkey(MonkeyParser.MoreExpression_monkeyContext ctx) {
-        visit(ctx.expression(0));
-        for(int i=1; i<ctx.expression().size();i++) {
-            visit(ctx.expression(i));
+        LinkedList<Object> listaElementos=new LinkedList<>();
+        if(ctx.expression().size()==1){
+            visit(ctx.expression(0));
+            listaElementos.add(this.pila.popValue());
+            this.pila.pushValue(new ElementoStack(listaElementos,tipo_ArrayLiteral));
+        }
+        else if(ctx.expression().size()>0){
+            visit(ctx.expression(0));
+            listaElementos.add(this.pila.popValue());
+            for(int i=1; i<ctx.expression().size();i++) {
+                visit(ctx.expression(i));
+                listaElementos.add(this.pila.popValue());
+            }
+            this.pila.pushValue(new ElementoStack(listaElementos,tipo_ArrayLiteral));
         }
         return null;
     }
@@ -461,7 +536,7 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitPrintExpression_monkey(MonkeyParser.PrintExpression_monkeyContext ctx) {
         visit(ctx.expression());
-        return null;
+        return ctx.expression();
     }
 
     @Override
@@ -469,7 +544,7 @@ public class Interpreter extends MonkeyParserBaseVisitor {
         visit(ctx.expression());
         visit(ctx.blockStatement(0));
         visit(ctx.blockStatement(1));
-        return null;
+        return ctx.expression();
     }
 
     @Override
@@ -481,7 +556,7 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     }
 
     @Override
-    public Object visitIdAST(MonkeyParser.IdASTContext ctx) {
+    public Object visitIdAST(MonkeyParser.IdASTContext ctx){
         String identifierIndex= ctx.ID().getText();
         ElementoDataStorage elemento=this.almacen.getData(identifierIndex);
         if(elemento.getName().equals("null") && elemento.getValue().equals(-1)){

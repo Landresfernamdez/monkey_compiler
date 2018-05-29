@@ -41,7 +41,7 @@ public class DataStorage {
     public ElementoDataStorage devuelve(String name){
         for(int x=0;x<this.data.size();x++){
             if(this.data.get(x)!=null){
-                if(this.data.get(x).name==name){
+                if(this.data.get(x).getName().equals(name)){
                     return this.data.get(x);
                 }
             }
