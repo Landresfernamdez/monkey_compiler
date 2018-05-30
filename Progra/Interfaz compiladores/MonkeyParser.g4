@@ -23,8 +23,9 @@ multiplicationExpression: elementExpression multiplicationFactor #Multiplication
 multiplicationFactor: (MUL elementExpression)*#MultiplicationFactorMUL_monkey
                       | (DIV elementExpression)*#MultiplicationFactorDIV_monkey;
 elementExpression: primitiveExpression elementAccess#ElementExprssionPEElementAccess_monkey
-                 | primitiveExpression callExpression#ElementExprssionPECallExpression_monkey
-                 | primitiveExpression      #ElementExpressionPE_monkey;
+                    | primitiveExpression      #ElementExpressionPE_monkey
+                    | primitiveExpression callExpression#ElementExprssionPECallExpression_monkey;
+
 elementAccess: PCI expression PCD #ElementAcces_monkey;
 callExpression: PRI expressionList PRD#CallExpression_monkey;
 primitiveExpression: INTEGER#PEInteger_monkey

@@ -3,15 +3,15 @@ package interpreter;
 import generated.MonkeyParser;
 import generated.MonkeyParserBaseVisitor;
 import interfaz.Interfaz;
-
+import checker.checker;
 import java.util.LinkedList;
 
 public class Interpreter extends MonkeyParserBaseVisitor {
-    DataStorage almacen =new DataStorage();
-    EvaluationStack pila=new EvaluationStack();
+    public static DataStorage almacen =new DataStorage();
+    public static EvaluationStack pila=new EvaluationStack();
     int indicePila=0;
     int indiceAlmacen=0;
-
+    boolean arrayfunctions=false;
     int tipo_Boolean_true=1;
     int tipo_Boolean_false=111;
     int tipo_Entero=2;
@@ -28,7 +28,7 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     int tipoFnREST=10;
     int tipoFnPUSH=11;
     int tipoNeutro=0;
-
+    String identifierParametro="";
     @Override
     public Object visitProgram_monkey(MonkeyParser.Program_monkeyContext ctx){
         for(MonkeyParser.StatementContext ele:ctx.statement())
@@ -395,11 +395,33 @@ public class Interpreter extends MonkeyParserBaseVisitor {
         visit(ctx.arrayLiteral());
         return null;
     }
+    String idLista="";
     @Override
     public Object visitPEArrayFunctions_monkey(MonkeyParser.PEArrayFunctions_monkeyContext ctx) {
-        visit(ctx.arrayFunctions());
+        arrayfunctions=true;
+        int tipo=(Integer)visit(ctx.arrayFunctions());
         visit(ctx.expressionList());
-       // this.pila.pushValue(new ElementoStack(ctx.getText(),tipo_ArrayFunctions));
+        ///Imprimir lista de parametros
+        LinkedList<Object> parametros= (LinkedList<Object>) this.pila.popValue().getValor();
+        if(tipo==tipoFnPUSH){
+            if(2==parametros.size()){
+                ElementoStack elemento1= (ElementoStack) parametros.get(0);
+                ElementoStack elemento2= (ElementoStack) parametros.get(1);
+                if(elemento1.getTipo()==tipo_ArrayLiteral){
+                    LinkedList<ElementoStack> lista= (LinkedList<ElementoStack>) elemento1.getValor();
+                    lista.add(elemento2);
+                    this.almacen.modifyData(identifierParametro,lista,tipo_ArrayLiteral);
+                    this.almacen.printDataStorage();
+                }
+                else{
+                    Interfaz.msjsError.add("El primer elmento de el push debe ser una lista");
+                }
+            }
+            else{
+                Interfaz.msjsError.add("Error, la funcion push debe tener "+2+ " parametros");
+            }
+        }
+        System.out.println("Cantidad de parametros:"+parametros.size());
         return null;
     }
     @Override
@@ -427,27 +449,27 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     }
     @Override
     public Object visitArrayFunctionsLEN_monkey(MonkeyParser.ArrayFunctionsLEN_monkeyContext ctx) {
-        return null;
+        return tipoFnLEN;
     }
 
     @Override
     public Object visitArrayFunctionsFIRST_monkey(MonkeyParser.ArrayFunctionsFIRST_monkeyContext ctx) {
-        return null;
+        return tipoFnFIRST;
     }
 
     @Override
     public Object visitArrayFunctionsLAST_monkey(MonkeyParser.ArrayFunctionsLAST_monkeyContext ctx) {
-        return null;
+        return tipoFnLAST;
     }
 
     @Override
     public Object visitArrayFunctionsREST_monkey(MonkeyParser.ArrayFunctionsREST_monkeyContext ctx) {
-        return null;
+        return tipoFnREST;
     }
 
     @Override
     public Object visitArrayFunctionsPUSH_monkey(MonkeyParser.ArrayFunctionsPUSH_monkeyContext ctx) {
-        return null;
+        return tipoFnPUSH;
     }
 
     @Override
@@ -529,7 +551,16 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitExpressionListExpression_monkey(MonkeyParser.ExpressionListExpression_monkeyContext ctx) {
         visit(ctx.expression());
-        visit(ctx.moreExpressions());
+        int resultado=(Integer)visit(ctx.moreExpressions());
+        if(resultado!=tipo_NULL){
+        }
+        else{
+            LinkedList<Object> listaElementos=new LinkedList<>();
+            if(this.pila.size()>0){
+                listaElementos.add(this.pila.popValue());
+                this.pila.pushValue(new ElementoStack(listaElementos,tipo_ArrayLiteral));
+            }
+        }
         return null;
     }
 
@@ -541,21 +572,22 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitMoreExpression_monkey(MonkeyParser.MoreExpression_monkeyContext ctx) {
         LinkedList<Object> listaElementos=new LinkedList<>();
+        if(ctx.expression().size()==0){
+            return tipo_NULL;
+        }
         if(this.pila.size()>0){
-            System.out.println("Prueba de pila="+this.pila.size());
             listaElementos.add(this.pila.popValue());
         }
         if(ctx.expression().size()>0){
             visit(ctx.expression(0));
             listaElementos.add(this.pila.popValue());
-            for(int i=1; i<ctx.expression().size();i++) {
+            for(int i=1; i<ctx.expression().size();i++){
                 visit(ctx.expression(i));
                 listaElementos.add(this.pila.popValue());
             }
             this.pila.pushValue(new ElementoStack(listaElementos,tipo_ArrayLiteral));
-
         }
-        return null;
+        return 0;
     }
 
     @Override
@@ -584,12 +616,20 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     public Object visitIdAST(MonkeyParser.IdASTContext ctx){
         String identifierIndex= ctx.ID().getText();
         ElementoDataStorage elemento=this.almacen.getData(identifierIndex);
+        System.out.println("Prueba:"+identifierIndex);
         if(elemento.getName().equals("null") && elemento.getValue().equals(-1)){
             Interfaz.msjsError.add("Error, la variable "+identifierIndex+ " no existe");
         }
         else{
             ElementoDataStorage element = this.almacen.getData(identifierIndex);
-            this.pila.pushValue(new ElementoStack(element.getValue(),element.getTipo()));
+            if(arrayfunctions){
+                arrayfunctions=false;
+                identifierParametro=identifierIndex;
+                this.pila.pushValue(new ElementoStack(element.getValue(),element.getTipo()));
+            }
+            else{
+                this.pila.pushValue(new ElementoStack(element.getValue(),element.getTipo()));
+            }
         }
         return null;
     }

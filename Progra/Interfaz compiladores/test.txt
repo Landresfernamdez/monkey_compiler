@@ -7,11 +7,11 @@ let y=z;
 let a="casa"+7;
 let a=4+6*5;
 //Prueba de element access
+//Con listas
 let a=[1,2,3,4];
 let x=v[2];
 let x=a[5];
-
-
+//Con JSON
 let a={1:1};
 let x=f[2];
 let y=a[2];

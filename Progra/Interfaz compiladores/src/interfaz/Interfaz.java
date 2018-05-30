@@ -14,6 +14,9 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
 import  checker.checker;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileReader;
 import java.util.LinkedList;
@@ -26,13 +29,14 @@ import javax.swing.event.CaretListener;
  * @author Jurguen
  */
 public class Interfaz extends javax.swing.JFrame {
-
+    public  static int enters=0;
     private Editor editor;
     Scanner inst = null;
     generated.MonkeyParser parser=null;
     ANTLRInputStream input=null;
     CommonTokenStream tokens = null;
     ParseTree tree=null;
+    Interpreter in;
     public static LinkedList<String> msjsError;
     /**
      * Creates new form Interfaz
@@ -186,6 +190,7 @@ public class Interfaz extends javax.swing.JFrame {
                 initComponents();
                 msjsError=new LinkedList<String>();
                 editor=new Editor();
+                in=new Interpreter();
                 PanelEdicion.addCaretListener(new CaretListener() {
                     @Override
                     public void caretUpdate(CaretEvent e) {
@@ -207,7 +212,52 @@ public class Interfaz extends javax.swing.JFrame {
                 scroll.setViewportView(PanelEdicion);
                 TextLineNumber lineNumber = new TextLineNumber(PanelEdicion);
                 scroll.setRowHeaderView(lineNumber);
-	}    private void actualizarEstado(int linea, int columna) {
+                jTextArea1.addKeyListener(new KeyAdapter() {
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                            String [] lineas = jTextArea1.getText().split("\n");
+                            String lineaActual="";
+                            for(int x=0;x<lineas.length;x++){
+                                if(x==enters){
+                                    lineaActual=lineas[x];
+                                }
+                            }
+                            System.out.println(lineaActual);
+                            enters=enters+2;
+                            ///START
+                            input = new ANTLRInputStream(lineaActual);
+                            inst = new Scanner(input);
+                            inst.removeErrorListeners();
+                            inst.addErrorListener(ThrowingErrorListener.INSTANCE);
+                            tokens=new CommonTokenStream(inst);
+                            parser=new generated.MonkeyParser(tokens);
+                            parser.removeErrorListeners();
+                            parser.addErrorListener(ThrowingErrorListener.INSTANCE);
+                            try{
+                                tree =parser.program();
+                                checker c=new checker();
+                                c.visit(tree);
+                                in.visit(tree);
+                                in.almacen.printDataStorage();
+                                for (String i : msjsError){
+                                    if(PanelEdicion.getText().contains(i)){
+
+                                    }else{
+                                        PanelEdicion.setText(PanelEdicion.getText()+i+'\n');
+                                    }
+                                }
+                            }
+                            catch (RecognitionException ex){
+                                jTextArea1.setText("Compilacion fallida!!\n");
+                            }
+                            //END
+                            jTextArea1.setText(jTextArea1.getText()+'\n'+"NOMAMES");
+                        }
+                    }
+
+                });
+	}private void actualizarEstado(int linea, int columna) {
         lcolum.setText("Linea: " + linea + " Columna: " + columna);
     }
     private void menuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpenActionPerformed
@@ -277,7 +327,6 @@ public class Interfaz extends javax.swing.JFrame {
                 tree =parser.program();
                 checker c=new checker();
                 c.visit(tree);
-                Interpreter in=new Interpreter();
                 in.visit(tree);
                 for (String i : this.msjsError){
                     if(jTextArea1.getText().contains(i)){
@@ -286,8 +335,6 @@ public class Interfaz extends javax.swing.JFrame {
                         jTextArea1.setText(jTextArea1.getText()+i+'\n');
                     }
                 }
-                //System.out.print(tree.getText());
-                jTextArea1.setText(jTextArea1.getText()+"Compilacion exitosa!!\n");
             }
             catch (RecognitionException e){
                 jTextArea1.setText("Compilacion fallida!!\n");

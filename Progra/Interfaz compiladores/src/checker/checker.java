@@ -8,7 +8,7 @@ import java.io.EOFException;
 
 public class checker extends MonkeyParserBaseVisitor{
     SymbolTable table=null;
-    SymbolTableFn tableFn=null;
+    public  static SymbolTableFn tableFn=null;
     int tipo_Boolean=1;
     int tipo_Entero=2;
     int tipo_String=3;
@@ -35,11 +35,11 @@ public class checker extends MonkeyParserBaseVisitor{
     }
     @Override
     public Object visitProgram_monkey(MonkeyParser.Program_monkeyContext ctx){
-        this.tableFn.insertar(1,tipo_Entero,"LEN",tipoNeutro,ctx);
-        this.tableFn.insertar(1,tipo_Entero,"FIRS",tipoNeutro,ctx);
-        this.tableFn.insertar(2,tipo_Entero,"REST",tipoNeutro,ctx);
-        this.tableFn.insertar(1,tipo_Entero,"LAST",tipoNeutro,ctx);
-        this.tableFn.insertar(2,tipo_Entero,"PUSH",tipoNeutro,ctx);
+        this.tableFn.insertar(1,tipo_Entero,"len",tipoNeutro,ctx);
+        this.tableFn.insertar(1,tipo_Entero,"first",tipoNeutro,ctx);
+        this.tableFn.insertar(2,tipo_Entero,"rest",tipoNeutro,ctx);
+        this.tableFn.insertar(1,tipo_Entero,"last",tipoNeutro,ctx);
+        this.tableFn.insertar(2,tipo_Entero,"push",tipoNeutro,ctx);
         for(MonkeyParser.StatementContext ele:ctx.statement())
             visit(ele);
         return null;
@@ -641,8 +641,8 @@ public class checker extends MonkeyParserBaseVisitor{
         int retorno=tipoError;
         if(ctx.arrayFunctions()!=null){
             int temporal=(Integer)visit(ctx.arrayFunctions());
-            if((Integer)visit(ctx.expressionList())==tipo_ArrayLiteral){
-                retorno=temporal; }
+            visit(ctx.expressionList());
+            retorno=temporal;
         }
         return retorno;
     }

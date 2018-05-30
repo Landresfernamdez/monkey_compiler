@@ -14,11 +14,11 @@ public class SymbolTableFn {
     private int nivelActual;
 
     public class Ident{
-        int parametros; //los parametros que trae la funcion
-        int tipoDeRetornoFn; //tipo de retorno de la funcion
-        int nivel;
-        Token tok;
-        int type; //forma simple de identificar un tipo del lenguaje [0--> Entero] NO ES TAN CECESARIO EN ESTE LENGUAJE ALPHA PUESTO QUE SOLO ACEPTA NUMEROS
+        public int parametros; //los parametros que trae la funcion
+        public  int tipoDeRetornoFn; //tipo de retorno de la funcion
+        public int nivel;
+        public Token tok;
+        public int type; //forma simple de identificar un tipo del lenguaje [0--> Entero] NO ES TAN CECESARIO EN ESTE LENGUAJE ALPHA PUESTO QUE SOLO ACEPTA NUMEROS
         ParserRuleContext decl; //por si fuera necesario saber más acerca del contexto del identificador en el árbol
 
 

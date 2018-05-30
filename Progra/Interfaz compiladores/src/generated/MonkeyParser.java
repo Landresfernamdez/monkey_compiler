@@ -1209,21 +1209,21 @@ public class MonkeyParser extends Parser {
 				}
 				break;
 			case 2:
-				_localctx = new ElementExprssionPECallExpression_monkeyContext(_localctx);
+				_localctx = new ElementExpressionPE_monkeyContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(169);
 				primitiveExpression();
-				setState(170);
-				callExpression();
 				}
 				break;
 			case 3:
-				_localctx = new ElementExpressionPE_monkeyContext(_localctx);
+				_localctx = new ElementExprssionPECallExpression_monkeyContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(172);
+				setState(170);
 				primitiveExpression();
+				setState(171);
+				callExpression();
 				}
 				break;
 			}
@@ -2620,9 +2620,9 @@ public class MonkeyParser extends Parser {
 		"\2\2\2\u00a2\u00a5\3\2\2\2\u00a3\u00a1\3\2\2\2\u00a3\u00a4\3\2\2\2\u00a4"+
 		"\u00a7\3\2\2\2\u00a5\u00a3\3\2\2\2\u00a6\u009c\3\2\2\2\u00a6\u00a3\3\2"+
 		"\2\2\u00a7\27\3\2\2\2\u00a8\u00a9\5\36\20\2\u00a9\u00aa\5\32\16\2\u00aa"+
-		"\u00b0\3\2\2\2\u00ab\u00ac\5\36\20\2\u00ac\u00ad\5\34\17\2\u00ad\u00b0"+
-		"\3\2\2\2\u00ae\u00b0\5\36\20\2\u00af\u00a8\3\2\2\2\u00af\u00ab\3\2\2\2"+
-		"\u00af\u00ae\3\2\2\2\u00b0\31\3\2\2\2\u00b1\u00b2\7\33\2\2\u00b2\u00b3"+
+		"\u00b0\3\2\2\2\u00ab\u00b0\5\36\20\2\u00ac\u00ad\5\36\20\2\u00ad\u00ae"+
+		"\5\34\17\2\u00ae\u00b0\3\2\2\2\u00af\u00a8\3\2\2\2\u00af\u00ab\3\2\2\2"+
+		"\u00af\u00ac\3\2\2\2\u00b0\31\3\2\2\2\u00b1\u00b2\7\33\2\2\u00b2\u00b3"+
 		"\5\f\7\2\u00b3\u00b4\7\34\2\2\u00b4\33\3\2\2\2\u00b5\u00b6\7\35\2\2\u00b6"+
 		"\u00b7\5\60\31\2\u00b7\u00b8\7\36\2\2\u00b8\35\3\2\2\2\u00b9\u00cd\7%"+
 		"\2\2\u00ba\u00cd\7&\2\2\u00bb\u00cd\5:\36\2\u00bc\u00cd\7\5\2\2\u00bd"+
