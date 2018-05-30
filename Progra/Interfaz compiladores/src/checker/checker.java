@@ -517,22 +517,26 @@ public class checker extends MonkeyParserBaseVisitor{
         int retorno1=(Integer) visit(ctx.elementAccess());
         int temporal=tipoError;
         if(ctx.elementAccess()!=null && ctx.primitiveExpression()!=null){
-            int tipoExpresion=this.table.buscar(ctx.primitiveExpression().getText()).type;
-            retorno=tipoExpresion;
-            if(retorno!=tipoError && retorno1==tipoError){
-                temporal=tipoError;
-            }
-            else if(retorno!=tipoError && retorno1!=tipoError){
-                if((retorno==tipo_ArrayLiteral|retorno==12) && (retorno1==tipo_Entero|retorno1==tipo_Identifier)){
-                    temporal=retorno1;
-                }
-                else{
-                    Interfaz.msjsError.add("Error en la declaracion del acceso al Array o el hashLiteral");
+            System.out.println("Entro a la prueba 1");
+            if(this.table.buscar(ctx.primitiveExpression().getText())!=null){
+                int tipoExpresion=this.table.buscar(ctx.primitiveExpression().getText()).type;
+                retorno=tipoExpresion;
+                if(retorno!=tipoError && retorno1==tipoError){
                     temporal=tipoError;
+                }
+                else if(retorno!=tipoError && retorno1!=tipoError){
+                    if((retorno==tipo_ArrayLiteral|retorno==12) && (retorno1==tipo_Entero|retorno1==tipo_Identifier)){
+                        temporal=retorno1;
+                    }
+                    else{
+                        Interfaz.msjsError.add("Error en la declaracion del acceso al Array o el hashLiteral");
+                        temporal=tipoError;
+                    }
                 }
             }
         }
         else{
+            System.out.println("Entro a la prueba");
             return tipoError;
         }
         return  temporal;

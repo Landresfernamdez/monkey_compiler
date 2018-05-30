@@ -116,7 +116,18 @@ public class DataStorage {
                 todo=todo+"-"+"Valor:"+listaConcatena;
                 System.out.println(todo);
             }
+            else if(item.getValue().getClass().getName().toString()=="interpreter.ElementoStack"){
+                ElementoStack elemento= (ElementoStack) item.getValue();
+                System.out.println(
+                        "Name: " + item.getName()+" - "+
+                                "Value: " + elemento.getValor()+" - "+
+                                "Type: " + item.getTipo()+" - "+
+                                "Index: " + item.getIndex()+" - "+
+                                "Level: " + item.getNivel()
+                );
+            }
             else{
+                System.out.println(item.getValue().getClass().getName().toString());
                 System.out.println(
                         "Name: " + item.getName()+" - "+
                                 "Value: " + item.getValue()+" - "+

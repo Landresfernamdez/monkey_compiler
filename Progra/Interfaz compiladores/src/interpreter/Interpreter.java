@@ -270,30 +270,59 @@ public class Interpreter extends MonkeyParserBaseVisitor {
         return null;
     }
     public ElementoStack devuelveElementoLista(String variable,int position){
-        for(int x=0;x<this.almacen.getData().size();x++){
-            if(this.almacen.getData(x).getName().equals(variable)){
-                ElementoDataStorage element=this.almacen.getData(x);
-                LinkedList<ElementoStack> lista= (LinkedList<ElementoStack>) element.getValue();
-                for(int y=0;y<lista.size();y++){
-                    if(y==position){
-                        return lista.get(x);
-                    }
-                }
+        ElementoDataStorage elemento=this.almacen.devuelve(variable);
+        LinkedList<ElementoStack> lista= (LinkedList<ElementoStack>) elemento.getValue();
+        for(int x=0;x<lista.size();x++){
+            if(x==position){
+                return lista.get(x);
+            }
+        }
+        return null;
+    }
+    public ElementoStack devuelveElementoJSON(String variable,ElementoStack clave){
+        ElementoDataStorage elemento=this.almacen.devuelve(variable);
+        JSON json= (JSON) elemento.getValue();
+        LinkedList<Data> lista= json.getValores();
+        for(int x=0;x<lista.size();x++){
+            ElementoStack elemento1= (ElementoStack) lista.get(x).getClave();
+            ElementoStack elemento2= (ElementoStack) lista.get(x).getValor();
+            System.out.println(elemento1.getValor()+","+clave.getValor());
+            if(elemento1.getValor().equals(clave.getValor())){
+                return elemento2;
             }
         }
         return null;
     }
     @Override
     public Object visitElementExprssionPEElementAccess_monkey(MonkeyParser.ElementExprssionPEElementAccess_monkeyContext ctx) {
-        visit(ctx.primitiveExpression());
         if(existe(ctx.primitiveExpression().getText())){
+            visit(ctx.primitiveExpression());
             String elemento= (String) visit(ctx.elementAccess());
             if(this.almacen.devuelve(ctx.primitiveExpression().getText()).getTipo()==tipo_ArrayLiteral){
                 String variable=ctx.primitiveExpression().getText();
                 ElementoStack elementoPila=this.pila.popValue();
                 Integer indiceLista= (Integer) elementoPila.getValor();
                 this.pila.popValue();
-                this.pila.pushValue(new ElementoStack(devuelveElementoLista(variable,indiceLista),elementoPila.getTipo()));
+                ElementoStack element=devuelveElementoLista(variable,indiceLista);
+                if(element==null){
+                    Interfaz.msjsError.add("EL indice accesado se sale de los limites de la lista ->"+variable+"[]");
+                }
+                else{
+                    this.pila.pushValue(new ElementoStack(element,elementoPila.getTipo()));
+                }
+            }
+            else if(this.almacen.devuelve(ctx.primitiveExpression().getText()).getTipo()==tipo_HashLiteral){
+                String variable=ctx.primitiveExpression().getText();
+                ElementoStack elementoPila=this.pila.popValue();
+                ElementoStack clave=elementoPila;
+                this.pila.popValue();
+                ElementoStack element=devuelveElementoJSON(variable,clave);
+                if(element==null){
+                    Interfaz.msjsError.add("La clave accesada no existe en el JSON ->"+variable+"{}");
+                }
+                else{
+                    this.pila.pushValue(new ElementoStack(element.getValor(),elementoPila.getTipo()));
+                }
             }
         }
         else{
