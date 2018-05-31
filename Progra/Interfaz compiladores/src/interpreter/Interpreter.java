@@ -30,6 +30,7 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     int tipoFnPUSH=11;
     int tipoNeutro=0;
     String identifierParametro="";
+    boolean Ifresultado=false;
     @Override
     public Object visitProgram_monkey(MonkeyParser.Program_monkeyContext ctx){
         for(MonkeyParser.StatementContext ele:ctx.statement())
@@ -92,7 +93,6 @@ public class Interpreter extends MonkeyParserBaseVisitor {
         visit(ctx.expression());
         return null;
     }
-
     @Override
     public Object visitExpression_monkey(MonkeyParser.Expression_monkeyContext ctx) {
         visit(ctx.additionExpression());
@@ -106,7 +106,6 @@ public class Interpreter extends MonkeyParserBaseVisitor {
             visit(ele);
         return null;
     }
-
     @Override
     public Object visitComparisonPlus_monkey(MonkeyParser.ComparisonPlus_monkeyContext ctx) {
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression())
@@ -130,9 +129,21 @@ public class Interpreter extends MonkeyParserBaseVisitor {
 
     @Override
     public Object visitComparisonEqualEqual_monkey(MonkeyParser.ComparisonEqualEqual_monkeyContext ctx) {
-        for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression())
+        boolean resultado=false;
+        for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             visit(ele);
-        return null;
+            ElementoStack elemento2=pila.popValue();
+            ElementoStack elemento1=pila.popValue();
+            if(elemento1.getValor()==elemento2.getValor()){
+                resultado=true;
+            }
+            else{
+                resultado=false;
+                break;
+            }
+        }
+        Ifresultado=resultado;
+        return resultado;
     }
 
     @Override
@@ -609,6 +620,65 @@ public class Interpreter extends MonkeyParserBaseVisitor {
                 Interfaz.msjsError.add("Error, la funcion push debe tener "+1+ " parametro");
             }
         }
+        if(tipo==tipoFnREST){
+            resultadoPush="";
+            if(1==parametros.size()){
+                ElementoStack elemento1= (ElementoStack) parametros.get(0);
+                if(elemento1.getTipo()==tipo_ArrayLiteral){
+                    LinkedList<ElementoStack> lista= (LinkedList<ElementoStack>) elemento1.getValor();
+                    String listaConcatena="[";
+                    Object temporal="";
+                    for(int j=1;j<lista.size();j++){
+                        temporal= lista.get(j).valor;
+                        if(lista.get(j).getTipo()==tipo_HashLiteral){
+                            JSON json= (JSON) lista.get(j).getValor();
+                            System.out.println(json.getClass().getName().toString());
+                            LinkedList<Data> lista1= json.getValores();
+                            String listaConcatenar="{";
+                            for(int i=0;i<lista1.size();i++){
+                                if(i!=lista1.size()-1){
+                                    ElementoStack clave= (ElementoStack) lista1.get(i).getClave();
+                                    ElementoStack valor=(ElementoStack) lista1.get(i).getValor();
+                                    listaConcatenar=listaConcatenar+clave.getValor()+":"+valor.getValor()+",";
+                                }
+                                else{
+                                    ElementoStack clave= (ElementoStack) lista1.get(i).getClave();
+                                    ElementoStack valor=(ElementoStack) lista1.get(i).getValor();
+                                    listaConcatenar=listaConcatenar+clave.getValor()+":"+valor.getValor()+"}";
+                                }
+                            }
+                            System.out.println("Prueba entro"+listaConcatenar);
+                            temporal=listaConcatenar;
+                        }
+                        if(lista.get(j).getTipo()==tipo_ArrayLiteral){
+                            try {
+                                LinkedList<ElementoStack> lista2= (LinkedList<ElementoStack>) lista.get(j).getValor();
+                                String listaConcatena1="[";
+                                for(int t=0;t<lista2.size();t++){
+                                    if(t!=lista2.size()-1){
+                                        listaConcatena1=listaConcatena1+lista2.get(t).valor+",";
+                                    }
+                                    else{
+                                        listaConcatena1=listaConcatena1+lista2.get(t).valor+"]";
+                                    }
+                                }
+                                temporal=listaConcatena1;
+                            }catch (Exception e){
+
+                            }
+                        }
+                        if(j!=lista.size()-1){
+                            listaConcatena=listaConcatena+temporal+",";
+                        }
+                        else{
+                            listaConcatena=listaConcatena+temporal+"]";
+                        }
+                    }
+                    resultadoPush=listaConcatena;
+                    this.almacen.printDataStorage();
+        }
+            }
+        }
         System.out.println("Cantidad de parametros:"+parametros.size());
         return null;
     }
@@ -787,9 +857,13 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitIfExpression_monkey(MonkeyParser.IfExpression_monkeyContext ctx) {
         visit(ctx.expression());
-        visit(ctx.blockStatement(0));
-        visit(ctx.blockStatement(1));
-        return ctx.expression();
+        if(Ifresultado==true){
+            visit(ctx.blockStatement(0));
+        }
+        else{
+            visit(ctx.blockStatement(1));
+        }
+        return null;
     }
 
     @Override

@@ -24,4 +24,14 @@ first(a);
 first(b);
 push(a,1);
 len(a);
+rest(a);
+rest(b);
+
+//Pruebas de los if
+
+if 1==2 {
+  let a=1;
+}else{
+  let b=1;
+}
 
