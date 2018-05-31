@@ -5,6 +5,7 @@
  */
 package interfaz;
 import generated.Scanner;
+import interpreter.ElementoStack;
 import interpreter.Interpreter;
 import linea.TextLineNumber;
 import clasesCompiladores.Editor;
@@ -247,12 +248,13 @@ public class Interfaz extends javax.swing.JFrame {
                                         PanelEdicion.setText(PanelEdicion.getText()+i+'\n');
                                     }
                                 }
+                                jTextArea1.setText(jTextArea1.getText()+'\n'+in.resultadoPush);
                             }
                             catch (RecognitionException ex){
                                 jTextArea1.setText("Compilacion fallida!!\n");
                             }
                             //END
-                            jTextArea1.setText(jTextArea1.getText()+'\n'+"NOMAMES");
+
                         }
                     }
 

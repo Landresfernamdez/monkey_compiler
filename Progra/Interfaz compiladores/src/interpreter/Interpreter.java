@@ -9,6 +9,7 @@ import java.util.LinkedList;
 public class Interpreter extends MonkeyParserBaseVisitor {
     public static DataStorage almacen =new DataStorage();
     public static EvaluationStack pila=new EvaluationStack();
+    public static String resultadoPush="";
     int indicePila=0;
     int indiceAlmacen=0;
     boolean arrayfunctions=false;
@@ -411,6 +412,38 @@ public class Interpreter extends MonkeyParserBaseVisitor {
                     LinkedList<ElementoStack> lista= (LinkedList<ElementoStack>) elemento1.getValor();
                     lista.add(elemento2);
                     this.almacen.modifyData(identifierParametro,lista,tipo_ArrayLiteral);
+                    String listaConcatena="[";
+                    Object temporal="";
+                    for(int j=0;j<lista.size();j++){
+                        temporal= lista.get(j).valor;
+                        if(lista.get(j).getTipo()==tipo_HashLiteral){
+                            JSON json= (JSON) lista.get(j).getValor();
+                            System.out.println(json.getClass().getName().toString());
+                            LinkedList<Data> lista1= json.getValores();
+                            String listaConcatenar="{";
+                            for(int i=0;i<lista1.size();i++){
+                                if(i!=lista1.size()-1){
+                                    ElementoStack clave= (ElementoStack) lista1.get(i).getClave();
+                                    ElementoStack valor=(ElementoStack) lista1.get(i).getValor();
+                                    listaConcatenar=listaConcatenar+clave.getValor()+":"+valor.getValor()+",";
+                                }
+                                else{
+                                    ElementoStack clave= (ElementoStack) lista1.get(i).getClave();
+                                    ElementoStack valor=(ElementoStack) lista1.get(i).getValor();
+                                    listaConcatenar=listaConcatenar+clave.getValor()+":"+valor.getValor()+"}";
+                                }
+                            }
+                            System.out.println("Prueba entro"+listaConcatenar);
+                            temporal=listaConcatenar;
+                        }
+                        if(j!=lista.size()-1){
+                            listaConcatena=listaConcatena+temporal+",";
+                        }
+                        else{
+                            listaConcatena=listaConcatena+temporal+"]";
+                        }
+                    }
+                    resultadoPush=listaConcatena;
                     this.almacen.printDataStorage();
                 }
                 else{
