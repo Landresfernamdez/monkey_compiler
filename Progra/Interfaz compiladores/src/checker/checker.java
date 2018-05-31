@@ -184,28 +184,18 @@ public class checker extends MonkeyParserBaseVisitor{
         int temporal=0;
         int ant=comparisonExpresion;
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
+            //Aqui se cae debido a que no es un entero
             temporal=(Integer)visit(ele);
-            if(existe(temporal, listaValidaComparisons)==false){
+            System.out.println(ant);
+            System.out.println(temporal);
+            if(existe(temporal,listaValidaComparisons)==false){
                 Interfaz.msjsError.add("Error en la declaracion del if, estos tipos no se pueden comparar");
                 retorno=tipoError;
                 break;
             }
             else{
-                if(ant!=temporal){
-                    if((ant!=tipo_Identifier)|(temporal!=tipo_Identifier)){
-                        retorno=tipoError;
-                        Interfaz.msjsError.add("Error en la declaracion del if, estos tipos no se pueden comparar");
-                        break;
-                    }
-                    else{
-                        ant=temporal;
-                        retorno=temporal;
-                    }
-                }
-                else{
-                    ant=temporal;
-                    retorno=temporal;
-                }
+                ant=temporal;
+                retorno=temporal;
             }
         }
         return retorno;
@@ -232,21 +222,8 @@ public class checker extends MonkeyParserBaseVisitor{
                 break;
             }
             else{
-                if(ant!=temporal){
-                    if((ant!=tipo_Identifier)|(temporal!=tipo_Identifier)){
-                        retorno=tipoError;
-                        Interfaz.msjsError.add("Error en la declaracion del if, estos tipos no se pueden comparar");
-                        break;
-                    }
-                    else{
-                        ant=temporal;
-                        retorno=temporal;
-                    }
-                }
-                else{
-                    ant=temporal;
-                    retorno=temporal;
-                }
+                ant=temporal;
+                retorno=temporal;
             }
         }
         return retorno;
@@ -273,21 +250,8 @@ public class checker extends MonkeyParserBaseVisitor{
                 break;
             }
             else{
-                if(ant!=temporal){
-                    if((ant!=tipo_Identifier)|(temporal!=tipo_Identifier)){
-                        retorno=tipoError;
-                        Interfaz.msjsError.add("Error en la declaracion del if, estos tipos no se pueden comparar");
-                        break;
-                    }
-                    else{
-                        ant=temporal;
-                        retorno=temporal;
-                    }
-                }
-                else{
-                    ant=temporal;
-                    retorno=temporal;
-                }
+                ant=temporal;
+                retorno=temporal;
             }
         }
         return retorno;
@@ -308,27 +272,14 @@ public class checker extends MonkeyParserBaseVisitor{
         int ant=comparisonExpresion;
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             temporal=(Integer)visit(ele);
-            if(existe(temporal, listaValidaComparisons)==false){
+            if(existe(temporal,listaValidaComparisons)==false){
                 Interfaz.msjsError.add("Error en la declaracion del if, estos tipos no se pueden comparar");
                 retorno=tipoError;
                 break;
             }
             else{
-                if(ant!=temporal){
-                    if((ant!=tipo_Identifier)|(temporal!=tipo_Identifier)){
-                        retorno=tipoError;
-                        Interfaz.msjsError.add("Error en la declaracion del if, estos tipos no se pueden comparar");
-                        break;
-                    }
-                    else{
-                        ant=temporal;
-                        retorno=temporal;
-                    }
-                }
-                else{
-                    ant=temporal;
-                    retorno=temporal;
-                }
+                ant=temporal;
+                retorno=temporal;
             }
         }
         return retorno;
@@ -374,7 +325,6 @@ public class checker extends MonkeyParserBaseVisitor{
         }
         return retorno;
     }
-
     @Override
     public Object visitAdittionExpression_monkey(MonkeyParser.AdittionExpression_monkeyContext ctx) {
         int retorno=(Integer)visit(ctx.multiplicationExpression());

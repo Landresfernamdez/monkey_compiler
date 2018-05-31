@@ -27,11 +27,46 @@ len(a);
 rest(a);
 rest(b);
 
-//Pruebas de los if
-
+//Pruebas de el if
 if 1==2 {
   let a=1;
 }else{
   let b=1;
 }
+if 1==1 {
+   if 1=="casa" {
+       let a=9;
+            }else{
+                 let b="casa";
+                  }
+      let a=8;
+}else{
+  let b=1;
+}
 
+if 1<=2 {
+  let a=1;
+}else{
+  let b=1;
+}
+if 4>=2 {
+  let a=1;
+}else{
+  let b=1;
+}
+if 2<=2 {
+  let a="entro";
+}else{
+  let b=1;
+}
+if 1<2 {
+  let a="entro";
+}else{
+  let b="yeah";
+}
+//Asimismo con >= <= == <
+if "aaa">1 {
+  let a=1;
+}else{
+  let b=1;
+}

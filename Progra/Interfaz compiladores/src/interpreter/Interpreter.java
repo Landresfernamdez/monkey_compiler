@@ -30,7 +30,7 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     int tipoFnPUSH=11;
     int tipoNeutro=0;
     String identifierParametro="";
-    boolean Ifresultado=false;
+    int Ifresultado=tipo_NULL;
     @Override
     public Object visitProgram_monkey(MonkeyParser.Program_monkeyContext ctx){
         for(MonkeyParser.StatementContext ele:ctx.statement())
@@ -102,43 +102,111 @@ public class Interpreter extends MonkeyParserBaseVisitor {
 
     @Override
     public Object visitComparisonLess_monkey(MonkeyParser.ComparisonLess_monkeyContext ctx) {
-        for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression())
+        int resultado=tipo_Boolean_false;
+        for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             visit(ele);
-        return null;
+            ElementoStack elemento2=pila.popValue();
+            ElementoStack elemento1=pila.popValue();
+            if(elemento1.getTipo()!=tipo_Entero){
+                resultado=tipo_NULL;
+                break;
+            }else{
+                if((Integer)elemento1.getValor()<(Integer)elemento2.getValor()){
+                    resultado=tipo_Boolean_true;
+                }
+                else{
+                    resultado=tipo_Boolean_false;
+                    break;
+                }
+            }
+        }
+        Ifresultado=resultado;
+        return resultado;
     }
     @Override
     public Object visitComparisonPlus_monkey(MonkeyParser.ComparisonPlus_monkeyContext ctx) {
-        for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression())
+        int resultado=tipo_Boolean_false;
+        for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             visit(ele);
-        return null;
+            ElementoStack elemento2=pila.popValue();
+            ElementoStack elemento1=pila.popValue();
+            if(elemento1.getTipo()!=tipo_Entero){
+                resultado=tipo_NULL;
+                break;
+            }else{
+                if((Integer)elemento1.getValor()>(Integer)elemento2.getValor()){
+                    resultado=tipo_Boolean_true;
+                }
+                else{
+                    resultado=tipo_Boolean_false;
+                    break;
+                }
+            }
+        }
+        Ifresultado=resultado;
+        return resultado;
     }
 
     @Override
     public Object visitComparisonLessEqual_monkey(MonkeyParser.ComparisonLessEqual_monkeyContext ctx) {
-        for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression())
+        int resultado=tipo_Boolean_false;
+        for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             visit(ele);
-        return null;
+            ElementoStack elemento2=pila.popValue();
+            ElementoStack elemento1=pila.popValue();
+            if(elemento1.getTipo()!=tipo_Entero){
+                resultado=tipo_NULL;
+                break;
+            }else{
+                if((Integer)elemento1.getValor()<=(Integer)elemento2.getValor()){
+                    resultado=tipo_Boolean_true;
+                }
+                else{
+                    resultado=tipo_Boolean_false;
+                    break;
+                }
+            }
+        }
+        Ifresultado=resultado;
+        return resultado;
     }
 
     @Override
     public Object visitComparisonPlusEqual_monkey(MonkeyParser.ComparisonPlusEqual_monkeyContext ctx) {
-        for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression())
+        int resultado=tipo_Boolean_false;
+        for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             visit(ele);
-        return null;
+            ElementoStack elemento2=pila.popValue();
+            ElementoStack elemento1=pila.popValue();
+            if(elemento1.getTipo()!=tipo_Entero){
+                resultado=tipo_NULL;
+                break;
+            }else{
+                if((Integer)elemento1.getValor()>=(Integer)elemento2.getValor()){
+                    resultado=tipo_Boolean_true;
+                }
+                else{
+                    resultado=tipo_Boolean_false;
+                    break;
+                }
+            }
+        }
+        Ifresultado=resultado;
+        return resultado;
     }
 
     @Override
     public Object visitComparisonEqualEqual_monkey(MonkeyParser.ComparisonEqualEqual_monkeyContext ctx) {
-        boolean resultado=false;
+        int resultado=tipo_Boolean_false;
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             visit(ele);
             ElementoStack elemento2=pila.popValue();
             ElementoStack elemento1=pila.popValue();
             if(elemento1.getValor()==elemento2.getValor()){
-                resultado=true;
+                resultado=tipo_Boolean_true;
             }
             else{
-                resultado=false;
+                resultado=tipo_Boolean_false;
                 break;
             }
         }
@@ -857,11 +925,15 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitIfExpression_monkey(MonkeyParser.IfExpression_monkeyContext ctx) {
         visit(ctx.expression());
-        if(Ifresultado==true){
-            visit(ctx.blockStatement(0));
-        }
-        else{
-            visit(ctx.blockStatement(1));
+        if(Ifresultado!=tipo_NULL){
+            if(Ifresultado==tipo_Boolean_true){
+                visit(ctx.blockStatement(0));
+            }
+            else{
+                visit(ctx.blockStatement(1));
+            }
+        }else{
+            return null;
         }
         return null;
     }
