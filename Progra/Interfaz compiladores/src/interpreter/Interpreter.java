@@ -405,6 +405,7 @@ public class Interpreter extends MonkeyParserBaseVisitor {
         ///Imprimir lista de parametros
         LinkedList<Object> parametros= (LinkedList<Object>) this.pila.popValue().getValor();
         if(tipo==tipoFnPUSH){
+            resultadoPush="";
             if(2==parametros.size()){
                 ElementoStack elemento1= (ElementoStack) parametros.get(0);
                 ElementoStack elemento2= (ElementoStack) parametros.get(1);
@@ -452,6 +453,160 @@ public class Interpreter extends MonkeyParserBaseVisitor {
             }
             else{
                 Interfaz.msjsError.add("Error, la funcion push debe tener "+2+ " parametros");
+            }
+        }
+        if(tipo==tipoFnLEN){
+            resultadoPush="";
+            if(parametros.size()==1){
+                ElementoStack elemento1= (ElementoStack) parametros.get(0);
+                if(elemento1.getTipo()==tipo_ArrayLiteral){
+                    LinkedList<ElementoStack> lista= (LinkedList<ElementoStack>) elemento1.getValor();
+                    resultadoPush=resultadoPush+lista.size();
+                    this.almacen.printDataStorage();
+                }
+                else{
+                    Interfaz.msjsError.add("El primer elmento de el push debe ser una lista");
+                }
+            }
+            else{
+                Interfaz.msjsError.add("Error, la funcion push debe tener "+1+ " parametro");
+            }
+        }
+        if(tipo==tipoFnFIRST){
+            resultadoPush="";
+            if(parametros.size()==1){
+                ElementoStack elemento1= (ElementoStack) parametros.get(0);
+                if(elemento1.getTipo()==tipo_ArrayLiteral){
+                    LinkedList<ElementoStack> lista= (LinkedList<ElementoStack>) elemento1.getValor();
+                    Object temporal=lista.get(0).getValor();
+                    if(lista.get(0).getTipo()==tipo_HashLiteral){
+                        JSON json= (JSON) lista.get(0).getValor();
+                        System.out.println(json.getClass().getName().toString());
+                        LinkedList<Data> lista1= json.getValores();
+                        String listaConcatenar="{";
+                        for(int i=0;i<lista1.size();i++){
+                            if(i!=lista1.size()-1){
+                                ElementoStack clave= (ElementoStack) lista1.get(i).getClave();
+                                ElementoStack valor=(ElementoStack) lista1.get(i).getValor();
+                                listaConcatenar=listaConcatenar+clave.getValor()+":"+valor.getValor()+",";
+                            }
+                            else{
+                                ElementoStack clave= (ElementoStack) lista1.get(i).getClave();
+                                ElementoStack valor=(ElementoStack) lista1.get(i).getValor();
+                                listaConcatenar=listaConcatenar+clave.getValor()+":"+valor.getValor()+"}";
+                            }
+                        }
+                        System.out.println("Prueba entro"+listaConcatenar);
+                        temporal=listaConcatenar;
+                    }
+                    else if(lista.get(0).getTipo()==tipo_ArrayLiteral){
+                        LinkedList<ElementoStack> lista1= (LinkedList<ElementoStack>) lista.get(0).getValor();
+                        String listaConcatena="[";
+                        for(int j=0;j<lista1.size();j++){
+                            if(lista1.get(j).getTipo()==tipo_ArrayLiteral){
+                                try {
+                                    LinkedList<ElementoStack> lista2= (LinkedList<ElementoStack>) lista1.get(j).getValor();
+                                    String listaConcatena1="[";
+                                    for(int t=0;t<lista2.size();t++){
+                                        if(t!=lista2.size()-1){
+                                            listaConcatena1=listaConcatena1+lista2.get(t).valor+",";
+                                        }
+                                        else{
+                                            listaConcatena1=listaConcatena1+lista2.get(t).valor+"]";
+                                        }
+                                    }
+                                    listaConcatena=listaConcatena+listaConcatena1;
+                                }catch (Exception e){
+
+                                }
+                            }
+                            if(j!=lista1.size()-1){
+                                listaConcatena=listaConcatena+lista1.get(j).valor+",";
+                            }
+                            else{
+                                listaConcatena=listaConcatena+lista1.get(j).valor+"]";
+                            }
+                        }
+                        temporal=listaConcatena;
+                    }
+                    resultadoPush=resultadoPush+temporal;
+                    this.almacen.printDataStorage();
+                }
+                else{
+                    Interfaz.msjsError.add("El primer elmento de el push debe ser una lista");
+                }
+            }
+            else{
+                Interfaz.msjsError.add("Error, la funcion push debe tener "+1+ " parametro");
+            }
+        }
+        if(tipo==tipoFnLAST){
+            resultadoPush="";
+            if(parametros.size()==1){
+                ElementoStack elemento1= (ElementoStack) parametros.get(0);
+                if(elemento1.getTipo()==tipo_ArrayLiteral){
+                    LinkedList<ElementoStack> lista= (LinkedList<ElementoStack>) elemento1.getValor();
+                    int ultimo=lista.size()-1;
+                    Object temporal=lista.get(ultimo).getValor();
+                    if(lista.get(ultimo).getTipo()==tipo_HashLiteral){
+                        JSON json= (JSON) lista.get(ultimo).getValor();
+                        System.out.println(json.getClass().getName().toString());
+                        LinkedList<Data> lista1= json.getValores();
+                        String listaConcatenar="{";
+                        for(int i=0;i<lista1.size();i++){
+                            if(i!=lista1.size()-1){
+                                ElementoStack clave= (ElementoStack) lista1.get(i).getClave();
+                                ElementoStack valor=(ElementoStack) lista1.get(i).getValor();
+                                listaConcatenar=listaConcatenar+clave.getValor()+":"+valor.getValor()+",";
+                            }
+                            else{
+                                ElementoStack clave= (ElementoStack) lista1.get(i).getClave();
+                                ElementoStack valor=(ElementoStack) lista1.get(i).getValor();
+                                listaConcatenar=listaConcatenar+clave.getValor()+":"+valor.getValor()+"}";
+                            }
+                        }
+                        System.out.println("Prueba entro"+listaConcatenar);
+                        temporal=listaConcatenar;
+                    }
+                    else if(lista.get(ultimo).getTipo()==tipo_ArrayLiteral){
+                        LinkedList<ElementoStack> lista1= (LinkedList<ElementoStack>) lista.get(ultimo).getValor();
+                        String listaConcatena="[";
+                        for(int j=0;j<lista1.size();j++){
+                            if(lista1.get(j).getTipo()==tipo_ArrayLiteral){
+                                try {
+                                    LinkedList<ElementoStack> lista2= (LinkedList<ElementoStack>) lista1.get(j).getValor();
+                                    String listaConcatena1="[";
+                                    for(int t=0;t<lista2.size();t++){
+                                        if(t!=lista2.size()-1){
+                                            listaConcatena1=listaConcatena1+lista2.get(t).valor+",";
+                                        }
+                                        else{
+                                            listaConcatena1=listaConcatena1+lista2.get(t).valor+"]";
+                                        }
+                                    }
+                                    listaConcatena=listaConcatena+listaConcatena1;
+                                }catch (Exception e){
+
+                                }
+                            }
+                            if(j!=lista1.size()-1){
+                                listaConcatena=listaConcatena+lista1.get(j).valor+",";
+                            }
+                            else{
+                                listaConcatena=listaConcatena+lista1.get(j).valor+"]";
+                            }
+                        }
+                        temporal=listaConcatena;
+                    }
+                    resultadoPush=resultadoPush+temporal;
+                    this.almacen.printDataStorage();
+                }
+                else{
+                    Interfaz.msjsError.add("El primer elmento de el push debe ser una lista");
+                }
+            }
+            else{
+                Interfaz.msjsError.add("Error, la funcion push debe tener "+1+ " parametro");
             }
         }
         System.out.println("Cantidad de parametros:"+parametros.size());
