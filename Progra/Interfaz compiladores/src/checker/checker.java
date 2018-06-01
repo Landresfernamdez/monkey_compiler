@@ -184,7 +184,7 @@ public class checker extends MonkeyParserBaseVisitor{
         int temporal=0;
         int ant=comparisonExpresion;
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
-            //Aqui se cae debido a que no es un entero
+            //Aqui se cae debido a que no es un enteroa
             temporal=(Integer)visit(ele);
             System.out.println(ant);
             System.out.println(temporal);

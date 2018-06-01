@@ -99,15 +99,17 @@ public class Interpreter extends MonkeyParserBaseVisitor {
         visit(ctx.comparison());
         return null;
     }
-
     @Override
     public Object visitComparisonLess_monkey(MonkeyParser.ComparisonLess_monkeyContext ctx) {
         int resultado=tipo_Boolean_false;
+        if(ctx.additionExpression().size()==0){
+            return  tipo_NULL;
+        }
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             visit(ele);
             ElementoStack elemento2=pila.popValue();
             ElementoStack elemento1=pila.popValue();
-            if(elemento1.getTipo()!=tipo_Entero){
+            if(elemento1.getTipo()!=tipo_Entero | elemento2.getTipo()!=tipo_Entero){
                 resultado=tipo_NULL;
                 break;
             }else{
@@ -126,11 +128,14 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitComparisonPlus_monkey(MonkeyParser.ComparisonPlus_monkeyContext ctx) {
         int resultado=tipo_Boolean_false;
+        if(ctx.additionExpression().size()==0){
+            return  tipo_NULL;
+        }
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             visit(ele);
             ElementoStack elemento2=pila.popValue();
             ElementoStack elemento1=pila.popValue();
-            if(elemento1.getTipo()!=tipo_Entero){
+            if(elemento1.getTipo()!=tipo_Entero | elemento2.getTipo()!=tipo_Entero){
                 resultado=tipo_NULL;
                 break;
             }else{
@@ -150,11 +155,15 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitComparisonLessEqual_monkey(MonkeyParser.ComparisonLessEqual_monkeyContext ctx) {
         int resultado=tipo_Boolean_false;
+        System.out.println(ctx.additionExpression().size());
+        if(ctx.additionExpression().size()==0){
+            return  tipo_NULL;
+        }
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             visit(ele);
             ElementoStack elemento2=pila.popValue();
             ElementoStack elemento1=pila.popValue();
-            if(elemento1.getTipo()!=tipo_Entero){
+            if(elemento1.getTipo()!=tipo_Entero | elemento2.getTipo()!=tipo_Entero){
                 resultado=tipo_NULL;
                 break;
             }else{
@@ -174,11 +183,14 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitComparisonPlusEqual_monkey(MonkeyParser.ComparisonPlusEqual_monkeyContext ctx) {
         int resultado=tipo_Boolean_false;
+        if(ctx.additionExpression().size()==0){
+            return  tipo_NULL;
+        }
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             visit(ele);
             ElementoStack elemento2=pila.popValue();
             ElementoStack elemento1=pila.popValue();
-            if(elemento1.getTipo()!=tipo_Entero){
+            if(elemento1.getTipo()!=tipo_Entero | elemento2.getTipo()!=tipo_Entero){
                 resultado=tipo_NULL;
                 break;
             }else{
@@ -198,6 +210,9 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitComparisonEqualEqual_monkey(MonkeyParser.ComparisonEqualEqual_monkeyContext ctx) {
         int resultado=tipo_Boolean_false;
+        if(ctx.additionExpression().size()==0){
+            return  tipo_NULL;
+        }
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             visit(ele);
             ElementoStack elemento2=pila.popValue();
@@ -454,12 +469,14 @@ public class Interpreter extends MonkeyParserBaseVisitor {
 
     @Override
     public Object visitPETrue_monkey(MonkeyParser.PETrue_monkeyContext ctx) {
+        System.out.println("TRUE");
         this.pila.pushValue(new ElementoStack(true,tipo_Boolean_true));
         return null;
     }
 
     @Override
     public Object visitPEFalse_monkey(MonkeyParser.PEFalse_monkeyContext ctx) {
+        System.out.println("FALSE");
         this.pila.pushValue(new ElementoStack(false,tipo_Boolean_false));
         return null;
     }
@@ -870,10 +887,8 @@ public class Interpreter extends MonkeyParserBaseVisitor {
                 ElementoStack elemento=new ElementoStack(json,tipo_HashLiteral);
                 this.pila.pushValue(elemento);
             }
-
         return null;
     }
-
     @Override
     public Object visitExpressionListExpression_monkey(MonkeyParser.ExpressionListExpression_monkeyContext ctx) {
         visit(ctx.expression());
