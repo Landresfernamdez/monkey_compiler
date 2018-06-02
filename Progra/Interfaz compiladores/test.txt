@@ -15,7 +15,8 @@ let x=a[5];
 let a={1:1};
 let x=f[2];
 let y=a[2];
-
+//prueba de print
+puts("excelente");
 //Pueeba de funciones predefinidas
 
 let a=[{1:2},2,[1,2,3]];
@@ -68,5 +69,5 @@ if 1<2 {
 if "aaa">1 {
   let a=1;
 }else{
-  let b=1;
+  let a=2;
 }

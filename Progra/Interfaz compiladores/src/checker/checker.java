@@ -29,6 +29,7 @@ public class checker extends MonkeyParserBaseVisitor{
     boolean statementIf=false;
     boolean banderaifoneexpression=false;
     boolean banderaReturn=false;
+    boolean banderaIfActivate=false;
     public checker(){
         this.tableFn=new SymbolTableFn();
         this.table=new SymbolTable();
@@ -767,7 +768,6 @@ public class checker extends MonkeyParserBaseVisitor{
         int retorno=(Integer)visit(ctx.expression());
         return retorno;
     }
-    boolean banderaIfActivate=false;
     @Override
     public Object visitIfExpression_monkey(MonkeyParser.IfExpression_monkeyContext ctx) {
         int retorna=tipoError;

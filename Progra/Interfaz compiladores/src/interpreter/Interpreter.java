@@ -54,7 +54,6 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     public Object visitStatement_expressionStatement_monkey(MonkeyParser.Statement_expressionStatement_monkeyContext ctx) {
         visit(ctx.expressionStatement());
         return null;
-
     }
 
     public boolean existe(String name){
@@ -934,7 +933,15 @@ public class Interpreter extends MonkeyParserBaseVisitor {
     @Override
     public Object visitPrintExpression_monkey(MonkeyParser.PrintExpression_monkeyContext ctx) {
         visit(ctx.expression());
-        return ctx.expression();
+        if(pila.size()==1){
+            System.out.println(pila.size());
+            ElementoStack elemento=pila.popValue();
+            Interfaz.msjsError.add(elemento.getValor().toString());
+        }
+        else{
+            Interfaz.msjsError.add("Error en el print");
+        }
+        return null;
     }
 
     @Override
