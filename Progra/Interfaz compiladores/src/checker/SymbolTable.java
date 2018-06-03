@@ -75,15 +75,19 @@ public class SymbolTable {
     }
 
     public void closeScope(){
-        Ident element = this.tabla.get(0);
-        while (element != null && element.nivel == nivelActual){
-            tabla.pop();
-            if(!this.tabla.isEmpty())
-                element = this.tabla.get(0);
-            else
-                element= null;
+        if(this.tabla.size()==0){
+            this.nivelActual--;
+        }else{
+            Ident element = this.tabla.get(0);
+            while (element != null && element.nivel == nivelActual){
+                tabla.pop();
+                if(!this.tabla.isEmpty())
+                    element = this.tabla.get(0);
+                else
+                    element= null;
+            }
+            this.nivelActual--;
         }
-        this.nivelActual--;
     }
 
     public Ident buscar(String nombre)

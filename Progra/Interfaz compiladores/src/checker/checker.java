@@ -66,6 +66,7 @@ public class checker extends MonkeyParserBaseVisitor{
         }
         statementIf=true;
         int retorno=(Integer)visit(ctx.expressionStatement());
+        System.out.println("Volvio de expressionStatement:"+retorno);
         return retorno;
     }
     int temporaldentifiertype =0;
@@ -78,6 +79,7 @@ public class checker extends MonkeyParserBaseVisitor{
     public Object visitLetStatement_monkey(MonkeyParser.LetStatement_monkeyContext ctx) {
         temporaldentifiertype =0;
         int retorna=tipoError;
+
         TerminalNode idToken=(TerminalNode)visit(ctx.identifier());
         SymbolTable.Ident ta=this.table.buscar(idToken.getText());
         if(ta!=null){
@@ -90,7 +92,7 @@ public class checker extends MonkeyParserBaseVisitor{
         }
         else if(ta==null){
             if(ctx.expression()!=null){
-                int retorno=(Integer)visit(ctx.expression());
+                int retorno=(Integer)visit(ctx.expression());//En esta linea esta el error
                 int tipo=retorno;
                 if(ctx.expression().toStringTree().contains("fn(")||ctx.expression().toStringTree().contains("fn (")){
                     if(banderaReturn==true){
@@ -121,8 +123,9 @@ public class checker extends MonkeyParserBaseVisitor{
         return tipoNeutro;
     }
     @Override
-    public Object visitExpressionStatement_monkey(MonkeyParser.ExpressionStatement_monkeyContext ctx) {
+    public Object visitExpressionStatement_monkey(MonkeyParser.ExpressionStatement_monkeyContext ctx){
         int retorno=(Integer) visit(ctx.expression());
+        System.out.println("Volvio  de expression"+retorno);
         return retorno;
     }
     int comparisonExpresion=0;
@@ -187,8 +190,6 @@ public class checker extends MonkeyParserBaseVisitor{
         for(MonkeyParser.AdditionExpressionContext ele:ctx.additionExpression()){
             //Aqui se cae debido a que no es un enteroa
             temporal=(Integer)visit(ele);
-            System.out.println(ant);
-            System.out.println(temporal);
             if(existe(temporal,listaValidaComparisons)==false){
                 Interfaz.msjsError.add("Error en la declaracion del if, estos tipos no se pueden comparar");
                 retorno=tipoError;
@@ -329,11 +330,12 @@ public class checker extends MonkeyParserBaseVisitor{
     @Override
     public Object visitAdittionExpression_monkey(MonkeyParser.AdittionExpression_monkeyContext ctx) {
         int retorno=(Integer)visit(ctx.multiplicationExpression());
+        System.out.println("Volvio con un:"+retorno);
         int retorno1=(Integer)visit(ctx.additionFactor());
+        System.out.println("Volvio con un:"+retorno1);
         if(retorno!=tipoError && retorno1==tipo_NULL){
-                if(retorno==tipoError){
-                    retorno=tipoError;
-                }
+            System.out.println("Entro");
+            return retorno;
         }
         else if(retorno1!=tipo_NULL && retorno!=tipo_NULL){
             int retornoAF=(Integer)visit(ctx.additionFactor());
@@ -468,7 +470,6 @@ public class checker extends MonkeyParserBaseVisitor{
         int retorno1=(Integer) visit(ctx.elementAccess());
         int temporal=tipoError;
         if(ctx.elementAccess()!=null && ctx.primitiveExpression()!=null){
-            System.out.println("Entro a la prueba 1");
             if(this.table.buscar(ctx.primitiveExpression().getText())!=null){
                 int tipoExpresion=this.table.buscar(ctx.primitiveExpression().getText()).type;
                 retorno=tipoExpresion;
@@ -487,7 +488,6 @@ public class checker extends MonkeyParserBaseVisitor{
             }
         }
         else{
-            System.out.println("Entro a la prueba");
             return tipoError;
         }
         return  temporal;
@@ -532,6 +532,7 @@ public class checker extends MonkeyParserBaseVisitor{
                 retorno=temporal;
             }
         }
+        System.out.println("Volvio del PE con un :"+retorno);
         return retorno;
     }
     @Override
@@ -564,6 +565,7 @@ public class checker extends MonkeyParserBaseVisitor{
 
     @Override
     public Object visitPEIdentifier_monkey(MonkeyParser.PEIdentifier_monkeyContext ctx) {
+        TerminalNode valor=(TerminalNode)visit(ctx.identifier());
         return tipo_Identifier;
     }
 
@@ -614,19 +616,19 @@ public class checker extends MonkeyParserBaseVisitor{
 
     @Override
     public Object visitPEPrintExpression_monkey(MonkeyParser.PEPrintExpression_monkeyContext ctx) {
+        System.out.println("Entro al print expression");
         int retorno=(Integer)visit(ctx.printExpression());
+        System.out.println("Volvio del printExpresson:"+retorno);
         return retorno;
     }
-
     @Override
     public Object visitPEIfExpression_monkey(MonkeyParser.PEIfExpression_monkeyContext ctx) {
         int retorno=(Integer)visit(ctx.ifExpression());
         int temporal=tipoError;
-        if(retorno!=tipoError)
+        if(retorno!=tipoError && retorno!=tipo_NULL)
             temporal=retorno;
         return  temporal;
     }
-
     @Override
     public Object visitArrayFunctionsLEN_monkey(MonkeyParser.ArrayFunctionsLEN_monkeyContext ctx) {
         return tipoFnLEN;
@@ -772,8 +774,12 @@ public class checker extends MonkeyParserBaseVisitor{
     public Object visitIfExpression_monkey(MonkeyParser.IfExpression_monkeyContext ctx) {
         int retorna=tipoError;
         banderaIfActivate=true;
+        System.out.println("Entro al if");
         int temporal=(Integer)visit(ctx.expression());
+        System.out.println("Fue al expression:"+temporal);
+        System.out.println("Entro al primer blockStatement");
         int block1=(Integer)visit(ctx.blockStatement(0));
+        System.out.println("Volvio del primer block");
         int block2=(Integer)visit(ctx.blockStatement(1));
         if(banderaifoneexpression==true && banderaIfActivate==false && statementIf==true){
             banderaifoneexpression=false;
@@ -806,22 +812,38 @@ public class checker extends MonkeyParserBaseVisitor{
         int retorna=tipoError;
         this.table.openScope();
         int temporal=-1;
-        for(MonkeyParser.StatementContext ele:ctx.statement()){
-            temporal=(Integer)visit(ele);
-            if(temporal!=tipo_NULL){
-                if(temporal!=tipoError){
-                    retorna=temporal;
+        System.out.println("Entro a la prueba jjj");
+        if(ctx.statement().size()==0){
+            return  tipo_NULL;
+        }
+        if(ctx.statement().size()==1){
+            System.out.println("Entro a  prueba");
+            retorna=(Integer)visit(ctx.statement(0));
+            System.out.println("Salio:"+retorna);
+            this.table.closeScope();
+            return retorna;
+        }
+        else{
+            for(MonkeyParser.StatementContext ele:ctx.statement()){
+                System.out.println("Entro al block");
+                temporal=(Integer)visit(ele);
+                System.out.println("Salio del block:"+temporal);
+                if(temporal!=tipo_NULL){
+                    if(temporal!=tipoError){
+                        retorna=temporal;
+                    }
+                    else{
+                        return tipoError;
+                    }
                 }
                 else{
-                    retorna=tipoError;
-                    break;
+                    return tipo_NULL;
                 }
             }
-            else{
-
-            }
+            this.table.closeScope();
+            System.out.println("Paso el block:"+retorna);
+            return retorna;
         }
-        this.table.closeScope();
-        return retorna;
     }
+
 }
